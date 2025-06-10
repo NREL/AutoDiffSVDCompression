@@ -1,0 +1,10 @@
+name = "BurgersEquation"
+uuid = "2685da08-9f13-4009-b709-356dd418f2d4"
+authors = ["Jonathan Maack <jonathan.maack@nrel.gov>"]
+version = "0.1.0"
+
+[deps]
+ProgressMeter = "92933f4c-e287-5a05-a399-4b506db050ca"
+
+[compat]
+ProgressMeter = "1.10.4"

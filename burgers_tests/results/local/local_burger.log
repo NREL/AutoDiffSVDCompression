@@ -1,0 +1,842 @@
+Sweeping through AD modes: [:forward, :reverse, :finitediff, :svdreverse]
+With grid sizes: [16, 32, 64, 128, 256, 512, 1024]
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=forward --gridsize=4`
+tf = 1.0
+Nx = 16
+(m, n) = (4, 4)
+my_params = Dict{Symbol, Any}(:Nx => 16, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with ForwardDiff --------
+  2.734211 seconds (12.75 M allocations: 674.334 MiB, 2.10% gc time, 98.51% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.981480759049124
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.981481e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 1.11e-16 ≤ 1.0e-08
+    |x - x'|/|x'|          = 1.90e-16 ≰ 0.0e+00
+    |f(x) - f(x')|         = 8.43e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.41e-05 ≰ 0.0e+00
+    |g(x)|                 = 1.26e+00 ≰ 1.0e-04
+
+ * Work counters
+    Seconds run:   1  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    275
+    ∇f(x) calls:   275
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=reverse --gridsize=4`
+tf = 1.0
+Nx = 16
+(m, n) = (4, 4)
+my_params = Dict{Symbol, Any}(:Nx => 16, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with ReverseDiff --------
+  4.047601 seconds (24.82 M allocations: 1.118 GiB, 4.62% gc time, 86.35% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.981480759049126
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.981481e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 1.11e-16 ≤ 1.0e-08
+    |x - x'|/|x'|          = 1.90e-16 ≰ 0.0e+00
+    |f(x) - f(x')|         = 8.43e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.41e-05 ≰ 0.0e+00
+    |g(x)|                 = 1.26e+00 ≰ 1.0e-04
+
+ * Work counters
+    Seconds run:   3  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    276
+    ∇f(x) calls:   276
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=finitediff --gridsize=4`
+tf = 1.0
+Nx = 16
+(m, n) = (4, 4)
+my_params = Dict{Symbol, Any}(:Nx => 16, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with Finite Diff --------
+  2.246983 seconds (26.06 M allocations: 683.484 MiB, 2.42% gc time, 90.90% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.981660543479483
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.981661e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 3.21e-09 ≤ 1.0e-08
+    |x - x'|/|x'|          = 5.50e-09 ≰ 0.0e+00
+    |f(x) - f(x')|         = 8.42e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.41e-05 ≰ 0.0e+00
+    |g(x)|                 = 1.25e+00 ≰ 1.0e-04
+
+ * Work counters
+    Seconds run:   0  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    136
+    ∇f(x) calls:   136
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=svdreverse --gridsize=4`
+tf = 1.0
+Nx = 16
+(m, n) = (4, 4)
+my_params = Dict{Symbol, Any}(:Nx => 16, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+  4.429469 seconds (30.00 M allocations: 1.329 GiB, 2.57% gc time, 84.64% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.98148075496269
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.981481e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 1.11e-16 ≤ 1.0e-08
+    |x - x'|/|x'|          = 1.90e-16 ≰ 0.0e+00
+    |f(x) - f(x')|         = 8.43e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.41e-05 ≰ 0.0e+00
+    |g(x)|                 = 1.26e+00 ≰ 1.0e-04
+
+ * Work counters
+    Seconds run:   3  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    287
+    ∇f(x) calls:   287
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=forward --gridsize=5`
+tf = 1.0
+Nx = 32
+(m, n) = (8, 4)
+my_params = Dict{Symbol, Any}(:Nx => 32, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with ForwardDiff --------
+  2.818074 seconds (13.68 M allocations: 792.768 MiB, 2.18% gc time, 97.92% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.528068026750754
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.528068e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 2.65e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 4.42e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.89e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.25e-05 ≰ 0.0e+00
+    |g(x)|                 = 6.62e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   1  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    49
+    ∇f(x) calls:   49
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=reverse --gridsize=5`
+tf = 1.0
+Nx = 32
+(m, n) = (8, 4)
+my_params = Dict{Symbol, Any}(:Nx => 32, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with ReverseDiff --------
+  4.231996 seconds (24.57 M allocations: 1.097 GiB, 6.79% gc time, 82.56% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.528068026750757
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.528068e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 2.65e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 4.42e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.89e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.25e-05 ≰ 0.0e+00
+    |g(x)|                 = 6.62e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   3  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    49
+    ∇f(x) calls:   49
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=finitediff --gridsize=5`
+tf = 1.0
+Nx = 32
+(m, n) = (8, 4)
+my_params = Dict{Symbol, Any}(:Nx => 32, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with Finite Diff --------
+  2.749297 seconds (66.26 M allocations: 1.268 GiB, 5.93% gc time, 77.61% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.528068026750752
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.528068e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 2.65e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 4.42e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.89e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.25e-05 ≰ 0.0e+00
+    |g(x)|                 = 6.62e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   1  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    49
+    ∇f(x) calls:   49
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=svdreverse --gridsize=5`
+tf = 1.0
+Nx = 32
+(m, n) = (8, 4)
+my_params = Dict{Symbol, Any}(:Nx => 32, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+  4.589905 seconds (29.22 M allocations: 1.308 GiB, 6.61% gc time, 84.24% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.528068026750754
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.528068e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 2.65e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 4.42e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.89e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.25e-05 ≰ 0.0e+00
+    |g(x)|                 = 6.62e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   3  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    49
+    ∇f(x) calls:   49
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=forward --gridsize=6`
+tf = 1.0
+Nx = 64
+(m, n) = (8, 8)
+my_params = Dict{Symbol, Any}(:Nx => 64, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with ForwardDiff --------
+  3.214883 seconds (27.04 M allocations: 1.890 GiB, 5.80% gc time, 90.80% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.261934624367113
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.261935e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 2.86e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 4.77e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.91e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.31e-05 ≰ 0.0e+00
+    |g(x)|                 = 5.48e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   2  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    47
+    ∇f(x) calls:   47
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=reverse --gridsize=6`
+tf = 1.0
+Nx = 64
+(m, n) = (8, 8)
+my_params = Dict{Symbol, Any}(:Nx => 64, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with ReverseDiff --------
+  5.279668 seconds (42.64 M allocations: 1.779 GiB, 7.99% gc time, 66.60% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.261934624367108
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.261935e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 2.86e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 4.77e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.91e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.31e-05 ≰ 0.0e+00
+    |g(x)|                 = 5.48e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   4  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    47
+    ∇f(x) calls:   47
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=finitediff --gridsize=6`
+tf = 1.0
+Nx = 64
+(m, n) = (8, 8)
+my_params = Dict{Symbol, Any}(:Nx => 64, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with Finite Diff --------
+  5.685294 seconds (352.33 M allocations: 5.556 GiB, 6.53% gc time, 37.96% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.261934624367113
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.261935e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 2.86e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 4.77e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.91e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.31e-05 ≰ 0.0e+00
+    |g(x)|                 = 5.48e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   4  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    47
+    ∇f(x) calls:   47
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=svdreverse --gridsize=6`
+tf = 1.0
+Nx = 64
+(m, n) = (8, 8)
+my_params = Dict{Symbol, Any}(:Nx => 64, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+  5.769369 seconds (52.90 M allocations: 2.240 GiB, 6.50% gc time, 66.57% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.26193462436615
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.261935e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 2.86e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 4.77e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.91e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.31e-05 ≰ 0.0e+00
+    |g(x)|                 = 5.48e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   5  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    47
+    ∇f(x) calls:   47
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=forward --gridsize=7`
+tf = 1.0
+Nx = 128
+(m, n) = (16, 8)
+my_params = Dict{Symbol, Any}(:Nx => 128, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with ForwardDiff --------
+  4.521532 seconds (108.88 M allocations: 8.736 GiB, 5.03% gc time, 61.65% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.12687128277026
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.126871e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 3.06e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 5.10e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.90e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.35e-05 ≰ 0.0e+00
+    |g(x)|                 = 6.62e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   3  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    47
+    ∇f(x) calls:   47
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=reverse --gridsize=7`
+tf = 1.0
+Nx = 128
+(m, n) = (16, 8)
+my_params = Dict{Symbol, Any}(:Nx => 128, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with ReverseDiff --------
+  9.518225 seconds (106.17 M allocations: 4.187 GiB, 9.82% gc time, 36.49% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.126871282770257
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.126871e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 3.06e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 5.10e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.90e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.35e-05 ≰ 0.0e+00
+    |g(x)|                 = 6.62e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   8  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    47
+    ∇f(x) calls:   47
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=finitediff --gridsize=7`
+tf = 1.0
+Nx = 128
+(m, n) = (16, 8)
+my_params = Dict{Symbol, Any}(:Nx => 128, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with Finite Diff --------
+ 23.930957 seconds (2.29 G allocations: 34.547 GiB, 7.01% gc time, 8.93% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.126871282770261
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.126871e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 3.06e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 5.10e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.90e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.35e-05 ≰ 0.0e+00
+    |g(x)|                 = 6.62e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   22  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    47
+    ∇f(x) calls:   47
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=svdreverse --gridsize=7`
+tf = 1.0
+Nx = 128
+(m, n) = (16, 8)
+my_params = Dict{Symbol, Any}(:Nx => 128, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+  9.943350 seconds (136.08 M allocations: 5.179 GiB, 5.95% gc time, 38.01% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.126871282763274
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.126871e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 3.06e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 5.10e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.90e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.35e-05 ≰ 0.0e+00
+    |g(x)|                 = 6.62e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   9  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    47
+    ∇f(x) calls:   47
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=forward --gridsize=8`
+tf = 1.0
+Nx = 256
+(m, n) = (16, 16)
+my_params = Dict{Symbol, Any}(:Nx => 256, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with ForwardDiff --------
+ 14.100063 seconds (654.42 M allocations: 54.376 GiB, 10.17% gc time, 19.71% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.062331180764774
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.062331e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 3.08e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 5.13e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.92e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.37e-05 ≰ 0.0e+00
+    |g(x)|                 = 6.86e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   13  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    42
+    ∇f(x) calls:   42
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=reverse --gridsize=8`
+tf = 1.0
+Nx = 256
+(m, n) = (16, 16)
+my_params = Dict{Symbol, Any}(:Nx => 256, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with ReverseDiff --------
+ 24.871606 seconds (314.45 M allocations: 12.185 GiB, 17.98% gc time, 14.52% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.062331180764777
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.062331e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 3.08e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 5.13e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.92e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.37e-05 ≰ 0.0e+00
+    |g(x)|                 = 6.86e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   24  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    42
+    ∇f(x) calls:   42
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=finitediff --gridsize=8`
+tf = 1.0
+Nx = 256
+(m, n) = (16, 16)
+my_params = Dict{Symbol, Any}(:Nx => 256, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with Finite Diff --------
+152.321488 seconds (15.00 G allocations: 224.219 GiB, 7.21% gc time, 1.41% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.062331180764779
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.062331e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 3.08e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 5.13e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.92e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.37e-05 ≰ 0.0e+00
+    |g(x)|                 = 6.86e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   150  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    42
+    ∇f(x) calls:   42
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=svdreverse --gridsize=8`
+tf = 1.0
+Nx = 256
+(m, n) = (16, 16)
+my_params = Dict{Symbol, Any}(:Nx => 256, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+ 25.080246 seconds (408.70 M allocations: 15.403 GiB, 10.54% gc time, 15.36% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.062331180754143
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.062331e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 3.08e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 5.13e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.92e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.37e-05 ≰ 0.0e+00
+    |g(x)|                 = 6.86e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   24  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    42
+    ∇f(x) calls:   42
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=forward --gridsize=9`
+tf = 1.0
+Nx = 512
+(m, n) = (32, 16)
+my_params = Dict{Symbol, Any}(:Nx => 512, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with ForwardDiff --------
+ 59.996322 seconds (3.72 G allocations: 310.742 GiB, 11.94% gc time, 4.68% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.0310918921188845
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.031092e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 3.16e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 5.27e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.90e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.37e-05 ≰ 0.0e+00
+    |g(x)|                 = 6.62e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   59  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    33
+    ∇f(x) calls:   33
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=reverse --gridsize=9`
+tf = 1.0
+Nx = 512
+(m, n) = (32, 16)
+my_params = Dict{Symbol, Any}(:Nx => 512, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with ReverseDiff --------
+ 70.619038 seconds (898.44 M allocations: 34.566 GiB, 23.32% gc time, 5.06% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.031091892118883
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.031092e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 3.16e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 5.27e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.90e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.37e-05 ≰ 0.0e+00
+    |g(x)|                 = 6.62e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   69  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    33
+    ∇f(x) calls:   33
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=finitediff --gridsize=9`
+tf = 1.0
+Nx = 512
+(m, n) = (32, 16)
+my_params = Dict{Symbol, Any}(:Nx => 512, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with Finite Diff --------
+817.314428 seconds (88.34 G allocations: 1.287 TiB, 8.70% gc time, 0.26% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.031091892118863
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.031092e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 3.16e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 5.27e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.90e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.37e-05 ≰ 0.0e+00
+    |g(x)|                 = 6.62e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   815  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    33
+    ∇f(x) calls:   33
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=svdreverse --gridsize=9`
+tf = 1.0
+Nx = 512
+(m, n) = (32, 16)
+my_params = Dict{Symbol, Any}(:Nx => 512, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+ 66.554887 seconds (1.17 G allocations: 44.587 GiB, 12.04% gc time, 5.62% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.0310918921112435
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.031092e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 3.16e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 5.26e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.90e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.37e-05 ≰ 0.0e+00
+    |g(x)|                 = 6.62e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   65  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    33
+    ∇f(x) calls:   33
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=forward --gridsize=10`
+tf = 1.0
+Nx = 1024
+(m, n) = (32, 32)
+my_params = Dict{Symbol, Any}(:Nx => 1024, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with ForwardDiff --------
+371.186792 seconds (21.90 G allocations: 1.734 TiB, 10.06% gc time, 0.79% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.015473430734104
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.015473e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 2.53e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 4.22e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.94e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.38e-05 ≰ 0.0e+00
+    |g(x)|                 = 7.27e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   369  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    25
+    ∇f(x) calls:   25
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=reverse --gridsize=10`
+tf = 1.0
+Nx = 1024
+(m, n) = (32, 32)
+my_params = Dict{Symbol, Any}(:Nx => 1024, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with ReverseDiff --------
+205.571630 seconds (2.55 G allocations: 96.290 GiB, 28.22% gc time, 1.69% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.015473430734104
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.015473e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 2.53e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 4.22e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.94e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.38e-05 ≰ 0.0e+00
+    |g(x)|                 = 7.27e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   204  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    25
+    ∇f(x) calls:   25
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=finitediff --gridsize=10`
+tf = 1.0
+Nx = 1024
+(m, n) = (32, 32)
+my_params = Dict{Symbol, Any}(:Nx => 1024, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with Finite Diff --------
+5429.094301 seconds (521.30 G allocations: 7.590 TiB, 6.41% gc time, 0.04% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.015473430734123
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.015473e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 2.53e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 4.22e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.94e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.38e-05 ≰ 0.0e+00
+    |g(x)|                 = 7.27e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   5427  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    25
+    ∇f(x) calls:   25
+
+`julia /Users/jmaack/ascr_ad/compression_tests/burgers_tests/burgers_large_scale.jl --case=svdreverse --gridsize=10`
+tf = 1.0
+Nx = 1024
+(m, n) = (32, 32)
+my_params = Dict{Symbol, Any}(:Nx => 1024, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+178.382243 seconds (3.36 G allocations: 128.299 GiB, 10.68% gc time, 2.12% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.015473430777451
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.015473e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 2.53e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 4.22e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.94e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.38e-05 ≰ 0.0e+00
+    |g(x)|                 = 7.27e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   177  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    25
+    ∇f(x) calls:   25
+
