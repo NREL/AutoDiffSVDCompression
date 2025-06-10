@@ -4,6 +4,7 @@ function main()
     # ad_modes = [:forward, :reverse, :finitediff, :svdforward, :svdreverse]
     ad_modes = [:forward, :reverse, :finitediff, :svdreverse]
     grid_sizes = 4:10
+    # grid_sizes = 4:12
 
     println("Sweeping through AD modes: ", ad_modes)
     println("With grid sizes: ", 2 .^ grid_sizes)
