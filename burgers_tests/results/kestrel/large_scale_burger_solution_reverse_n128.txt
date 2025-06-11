@@ -1,7 +1,7 @@
-GC live:      50.209 MiB
-JIT:           3.121 MiB
-Max. RSS:   1427.047 MiB
-Seconds: 11.979994241
+GC live:      50.212 MiB
+JIT:           3.123 MiB
+Max. RSS:   1295.484 MiB
+Seconds: 11.901390278
 Number of Calls: 47
 Converged: true
 Gradient Residual: 6.618395227597773e-5
