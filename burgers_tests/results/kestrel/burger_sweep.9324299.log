@@ -1,0 +1,218 @@
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+tf = 1.0
+Nx = 2048
+(m, n) = (64, 32)
+my_params = Dict{Symbol, Any}(:Nx => 2048, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with ForwardDiff --------
+6459.083519 seconds (243.63 G allocations: 19.010 TiB, 12.17% gc time, 0.20% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.007731979094579
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.007732e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 3.16e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 5.27e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.83e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.36e-05 ≰ 0.0e+00
+    |g(x)|                 = 5.05e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   6448  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    34
+    ∇f(x) calls:   34
+
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+tf = 1.0
+Nx = 2048
+(m, n) = (64, 32)
+my_params = Dict{Symbol, Any}(:Nx => 2048, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with ReverseDiff --------
+1553.586540 seconds (13.98 G allocations: 529.691 GiB, 43.18% gc time, 0.38% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.00773197909458
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.007732e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 3.16e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 5.27e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.83e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.36e-05 ≰ 0.0e+00
+    |g(x)|                 = 5.05e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   1551  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    34
+    ∇f(x) calls:   34
+
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+tf = 1.0
+Nx = 2048
+(m, n) = (64, 32)
+my_params = Dict{Symbol, Any}(:Nx => 2048, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+1185.251070 seconds (18.54 G allocations: 712.156 GiB, 17.81% gc time, 0.53% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.007731979142228
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.007732e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 3.16e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 5.27e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.83e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.36e-05 ≰ 0.0e+00
+    |g(x)|                 = 5.05e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   1183  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    34
+    ∇f(x) calls:   34
+
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+tf = 1.0
+Nx = 2048
+(m, n) = (64, 32)
+my_params = Dict{Symbol, Any}(:Nx => 2048, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with Finite Diff --------
+56993.726991 seconds (5.84 T allocations: 84.947 TiB, 11.12% gc time, 0.01% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.007731979094643
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.007732e+00
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 3.16e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 5.27e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.83e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.36e-05 ≰ 0.0e+00
+    |g(x)|                 = 5.05e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   56989  (vs limit Inf)
+    Iterations:    2
+    f(x) calls:    34
+    ∇f(x) calls:   34
+
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+tf = 1.0
+Nx = 4096
+(m, n) = (64, 64)
+my_params = Dict{Symbol, Any}(:Nx => 4096, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with ForwardDiff --------
+13788.855573 seconds (732.13 G allocations: 56.715 TiB, 13.77% gc time, 0.11% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 99.9999999999972
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     1.000000e+02
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 0.00e+00 ≤ 1.0e-08
+    |x - x'|/|x'|          = 0.00e+00 ≤ 0.0e+00
+    |f(x) - f(x')|         = 1.93e-01 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.93e-03 ≰ 0.0e+00
+    |g(x)|                 = 1.95e-01 ≰ 1.0e-04
+
+ * Work counters
+    Seconds run:   13775  (vs limit Inf)
+    Iterations:    1
+    f(x) calls:    39
+    ∇f(x) calls:   39
+
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+tf = 1.0
+Nx = 4096
+(m, n) = (64, 64)
+my_params = Dict{Symbol, Any}(:Nx => 4096, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with ReverseDiff --------
+2241.175213 seconds (20.84 G allocations: 794.108 GiB, 42.04% gc time, 0.25% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 99.9999999999972
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     1.000000e+02
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 0.00e+00 ≤ 1.0e-08
+    |x - x'|/|x'|          = 0.00e+00 ≤ 0.0e+00
+    |f(x) - f(x')|         = 1.93e-01 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.93e-03 ≰ 0.0e+00
+    |g(x)|                 = 1.95e-01 ≰ 1.0e-04
+
+ * Work counters
+    Seconds run:   2238  (vs limit Inf)
+    Iterations:    1
+    f(x) calls:    39
+    ∇f(x) calls:   39
+
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+tf = 1.0
+Nx = 4096
+(m, n) = (64, 64)
+my_params = Dict{Symbol, Any}(:Nx => 4096, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+1778.644069 seconds (27.70 G allocations: 974.037 GiB, 16.53% gc time, 0.35% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 99.9999999999972
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     1.000000e+02
+
+ * Found with
+    Algorithm:     Fminbox with BFGS
+
+ * Convergence measures
+    |x - x'|               = 0.00e+00 ≤ 1.0e-08
+    |x - x'|/|x'|          = 0.00e+00 ≤ 0.0e+00
+    |f(x) - f(x')|         = 1.93e-01 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.93e-03 ≰ 0.0e+00
+    |g(x)|                 = 1.95e-01 ≰ 1.0e-04
+
+ * Work counters
+    Seconds run:   1776  (vs limit Inf)
+    Iterations:    1
+    f(x) calls:    39
+    ∇f(x) calls:   39
+
+slurmstepd: error: *** JOB 9324299 ON x1005c1s6b1n0 CANCELLED AT 2025-06-14T10:35:43 DUE TO TIME LIMIT ***

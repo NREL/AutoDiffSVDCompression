@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --account=diffprog
-#SBATCH --time=4:00:00
+#SBATCH --time=2-0:00:00
 #SBATCH --job-name=burger_sweep
 #SBATCH --mail-user=jonathan.maack@nrel.gov
 #SBATCH --mail-type=ALL
