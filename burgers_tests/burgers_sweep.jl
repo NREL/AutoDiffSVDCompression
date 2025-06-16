@@ -3,8 +3,8 @@ function main()
 
     # ad_modes = [:forward, :reverse, :finitediff, :svdforward, :svdreverse]
     ad_modes = [:forward, :reverse, :svdreverse, :finitediff]
-    # grid_sizes = 4:14
     grid_sizes = 4:14
+    # grid_sizes = 4:12
 
     println("Sweeping through AD modes: ", ad_modes)
     println("With grid sizes: ", 2 .^ grid_sizes)
@@ -13,6 +13,11 @@ function main()
 
     for k in grid_sizes
         for ad in ad_modes
+            if (k > 11 && ad == :finitediff) || (k > 13 && ad == :forward)
+                continue
+            else
+                println("Running job: (", ad, ", ", k, ")")
+            end
             cmd = `julia $burger_script --case=$(ad) --gridsize=$(k) --trace`
             println(cmd)
             run(cmd)
