@@ -1,3 +1,3 @@
 [submodule "ImplicitAD"]
 	path = ImplicitAD
-	url = ./ImplicitAD
+	url = git@github.com:jmaack24/ImplicitAD.jl.git

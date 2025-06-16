@@ -13,6 +13,7 @@ import ArgParse
 import CSV
 import Optim
 import Printf
+# import Random
 import Tables
 
 using Plots
@@ -335,6 +336,12 @@ function main(ARGS)
         help = "size of the grid to use when solving Burgers equation -- 2^gridsize"
         arg_type = Int
         required = true
+        "--trace"
+        help = "print the trace from the optimization"
+        action = :store_true
+        "--extended-trace"
+        help = "print the extended trace from the optimization"
+        action = :store_true
         # "--opt2", "-o"
         # help = "another option with an argument"
         # arg_type = Int
@@ -359,7 +366,14 @@ function main(ARGS)
     @show tf
     @show Nx
 
-    x0 = fill(0.2, Nx)
+    # seed = 12345
+    # rng = Random.MerseneTwister(seed)
+    # xmax = 0.6
+    # xmin = 0.4
+    # x0 = rand(rng, Nx) .* (xmax - xmin) .+ xmin
+    # x0 = fill(0.5, Nx)
+    x0 = collect(range(0.4, 0.6, Nx))
+
     (m, n) = svd_dimensions(Nx)
     @show (m, n)
 
@@ -373,8 +387,8 @@ function main(ARGS)
         outer_g_abstol=tol,
         outer_x_abstol=xtol,
         store_trace=false,
-        extended_trace=false,
-        show_trace=false,
+        extended_trace=parsed_args["extended-trace"],
+        show_trace=(parsed_args["trace"] | parsed_args["extended-trace"]),
     )
 
     lb = zeros(Nx)
@@ -395,6 +409,7 @@ function main(ARGS)
 
     rvs_params = copy(my_params)
     rvs_params[:mode] = :direct
+
     svd_params = copy(my_params)
     svd_params[:mode] = :svd
     # svd_params[:nsv] = 8
