@@ -242,6 +242,18 @@ end
 #     return hat_initial_condition(x, 0.0, 1.0, b, a)
 # end
 
+function hat_function(x, hl, hr, hh, hb)
+    hm = 0.5 * (hr + hl)
+    if hl < x && x < hm
+        v = (hh - hb) / (hm - hl) * (x - hl) + hb
+    elseif hm <= x && x < hr
+        v = (hb - hh) / (hr - hm) * (x - hr) + hb
+    else
+        v = hb * one(x)
+    end
+    return v
+end
+
 function grid_control(i, xi, x, p)
     return x[i]
 end
@@ -257,6 +269,19 @@ end
 
 function tf_sin(x)
     return 0.5 + 0.2 * sin(2 * pi * x)
+end
+
+function tf_hat(x)
+    return hat_function(x, 0.25, 0.75, 0.6, 0.45)
+end
+
+function tf_tophat(x)
+    return (x < 0.25 || x > 0.75) ? 0.4 : 0.6
+end
+
+function tf_cliff(x)
+    # return x < 0.5 ? 0.6 : 0.4
+    return x < 0.5 ? 0.2 * x + 0.5 : 0.2 * x + 0.3
 end
 
 function initial_condition(x, p)
@@ -362,6 +387,7 @@ function main(ARGS)
     tf = 1.0
     Nx = 2^k
     cfl = 0.85
+    tar_func = tf_tophat
 
     @show tf
     @show Nx
@@ -401,7 +427,7 @@ function main(ARGS)
         :flux => :lf,
         :scale => 1e2,
         :ic => grid_control,
-        :target => tf_sin,
+        :target => tar_func,
         :mode => :normal,
     )
 
