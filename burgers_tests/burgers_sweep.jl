@@ -13,7 +13,7 @@ function main()
 
     for k in grid_sizes
         for ad in ad_modes
-            if (k > 11 && ad == :finitediff) || (k > 13 && ad == :forward)
+            if (k > 11 && ad == :finitediff) || (k > 12 && ad == :forward)
                 continue
             else
                 println("Running job: (", ad, ", ", k, ")")

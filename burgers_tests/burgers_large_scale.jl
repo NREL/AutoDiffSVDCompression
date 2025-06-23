@@ -387,7 +387,7 @@ function main(ARGS)
     tf = 1.0
     Nx = 2^k
     cfl = 0.85
-    tar_func = tf_tophat
+    tar_func = tf_cliff
 
     @show tf
     @show Nx
