@@ -13,7 +13,7 @@ import ArgParse
 import CSV
 import Optim
 import Printf
-# import Random
+import Random
 import Tables
 
 using Plots
@@ -271,13 +271,17 @@ function tf_sin(x)
     return 0.5 + 0.2 * sin(2 * pi * x)
 end
 
-function tf_hat(x)
-    return hat_function(x, 0.25, 0.75, 0.6, 0.45)
+function tf_weierstrass(x; a=0.9, b=7, N=100)
+    return
 end
 
-function tf_tophat(x)
-    return (x < 0.25 || x > 0.75) ? 0.4 : 0.6
-end
+# function tf_hat(x)
+#     return hat_function(x, 0.25, 0.75, 0.6, 0.45)
+# end
+
+# function tf_tophat(x)
+#     return (x < 0.25 || x > 0.75) ? 0.4 : 0.6
+# end
 
 function tf_cliff(x)
     # return x < 0.5 ? 0.6 : 0.4
@@ -361,6 +365,14 @@ function main(ARGS)
         help = "size of the grid to use when solving Burgers equation -- 2^gridsize"
         arg_type = Int
         required = true
+        "--seed"
+        help = "seed to send to random number generator for optimization initial condition"
+        arg_type = Int
+        required = true
+        "--target"
+        help = "function giving the target of function of the optimization"
+        arg_type = String
+        required = true
         "--trace"
         help = "print the trace from the optimization"
         action = :store_true
@@ -387,18 +399,32 @@ function main(ARGS)
     tf = 1.0
     Nx = 2^k
     cfl = 0.85
-    tar_func = tf_cliff
+    # tar_func = tf_cliff
+    # tar_func = tf_sin
+
+    tarf = Symbol(parsed_args["target"])
+    if (tarf == :sin)
+        tar_func = tf_sin
+    elseif (tarf == :cliff)
+        tar_func = tf_cliff
+    else
+        error("Unknown target function: $(tarf)")
+    end
 
     @show tf
     @show Nx
+    @show tar_func
 
-    # seed = 12345
-    # rng = Random.MerseneTwister(seed)
-    # xmax = 0.6
-    # xmin = 0.4
-    # x0 = rand(rng, Nx) .* (xmax - xmin) .+ xmin
+    # # Initial point for sin/smooth target function
+    # x0 = collect(range(0.4, 0.6, Nx))
+    # Initial point for cliff target function
+    seed = parsed_args["seed"]
+    @show seed
+    rng = Random.MersenneTwister(seed)
+    umax = 0.505
+    umin = 0.495
     # x0 = fill(0.5, Nx)
-    x0 = collect(range(0.4, 0.6, Nx))
+    x0 = (umax - umin) .* randn(Nx) .+ 0.5 * (umax + umin)
 
     (m, n) = svd_dimensions(Nx)
     @show (m, n)
@@ -417,8 +443,8 @@ function main(ARGS)
         show_trace=(parsed_args["trace"] | parsed_args["extended-trace"]),
     )
 
-    lb = zeros(Nx)
-    ub = fill(Inf, Nx)
+    # lb = zeros(Nx)
+    # ub = fill(Inf, Nx)
 
     my_params = Dict(
         :Nx => Nx,
@@ -465,11 +491,12 @@ function main(ARGS)
             println("-------- Running Optimimzation with ForwardDiff --------")
             @time res = Optim.optimize(
                 my_objective,
-                lb,
-                ub,
+                # lb,
+                # ub,
                 x0,
                 # Optim.Fminbox(Optim.BFGS(linesearch=LineSearches.BackTracking(order=3))),
-                Optim.Fminbox(Optim.BFGS()),
+                # Optim.Fminbox(Optim.BFGS()),
+                Optim.BFGS(),
                 my_options;
                 autodiff=:forward, # uses ForwardDiff.jl
             )
@@ -480,10 +507,11 @@ function main(ARGS)
             println("-------- Running Optimimzation with Finite Diff --------")
             @time res = Optim.optimize(
                 my_objective,
-                lb,
-                ub,
+                # lb,
+                # ub,
                 x0,
-                Optim.Fminbox(Optim.BFGS()),
+                # Optim.Fminbox(Optim.BFGS()),
+                Optim.BFGS(),
                 my_options;
             )
 
@@ -494,11 +522,12 @@ function main(ARGS)
             @time res = Optim.optimize(
                 rvs_objective,
                 rvs_gradient,
-                lb,
-                ub,
+                # lb,
+                # ub,
                 x0,
                 # Optim.Fminbox(Optim.BFGS(linesearch=LineSearches.BackTracking(order=3))),
-                Optim.Fminbox(Optim.BFGS()),
+                # Optim.Fminbox(Optim.BFGS()),
+                Optim.BFGS(),
                 my_options;
             )
 
@@ -509,10 +538,11 @@ function main(ARGS)
             @time res = Optim.optimize(
                 svd_objective,
                 # svd_gradient,
-                lb,
-                ub,
+                # lb,
+                # ub,
                 x0,
-                Optim.Fminbox(Optim.BFGS()),
+                # Optim.Fminbox(Optim.BFGS()),
+                Optim.BFGS(),
                 my_options;
                 autodiff=:forward, # uses ForwardDiff.jl
             )
@@ -524,12 +554,12 @@ function main(ARGS)
             @time res = Optim.optimize(
                 svd_objective,
                 svd_gradient,
-                lb,
-                ub,
+                # lb,
+                # ub,
                 x0,
-                Optim.Fminbox(Optim.BFGS()),
+                # Optim.Fminbox(Optim.BFGS()),
+                Optim.BFGS(),
                 my_options;
-                # autodiff = :forward, # uses ForwardDiff.jl
             )
 
         else
@@ -565,10 +595,14 @@ function main(ARGS)
         label="initial_condition"
     )
 
+    sys_dir = Sys.isapple() ? "local" : "kestrel"
+
     fbase = joinpath(
         @__DIR__,
         "results",
-        "large_scale_burger_solution_$(case)_n$(Nx)"
+        sys_dir,
+        string(tarf),
+        "large_scale_burger_solution_$(case)_n$(Nx)_s$(seed)"
     )
     CSV.write(fbase * ".csv", Tables.table(xsol); header=false)
     png(p, fbase)
