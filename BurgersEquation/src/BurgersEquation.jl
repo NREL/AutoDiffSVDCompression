@@ -24,7 +24,7 @@ end
 
 struct BurgersProblem{
     I<:Integer,
-    R1<:Real, R2<:Real, R3<:Real,
+    R1<:Real,R2<:Real,R3<:Real,
     V<:AbstractVector,
     F<:Function,
     FP<:Function,
@@ -90,11 +90,13 @@ function burger_step(u0, u1, f, fprime, flux, dt, dx, Nx)
         Fm = flux(f, fprime, u0[i-1], u0[i], ratio)
         u1[i] = u0[i] - ratio * (Fp - Fm)
     end
+
     return
+
 end
 
 function burger_loop(u0, u1, f, fprime, nflux, dt, Nt, dx, Nx;
-                     history=nothing, progress)
+    history=nothing, progress)
 
     if progress
         pm = PM.Progress(Nt)
@@ -166,7 +168,7 @@ function setup(
     save_solution(hist, u0, 0, zero(eltype(u0)))
 
     prob = BurgersProblem(Nx, Nt, dt, dx, tf, u0, copy(u0), copy(u0),
-                          f, fprime, nflux, hist)
+        f, fprime, nflux, hist)
 
     return prob
 

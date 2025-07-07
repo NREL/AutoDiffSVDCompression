@@ -54,15 +54,22 @@ function meminfo_julia(io::IOStream)
 end
 
 function dump_info(fname::AbstractString, time::Real, res)
+
     iof = open(fname, "w")
     meminfo_julia(iof)
     println(iof, "Seconds: ", time)
-    println(iof, "Number of Calls: ", Optim.f_calls(res))
-    println(iof, "Converged: ", Optim.converged(res))
-    println(iof, "Gradient Residual: ", res.g_residual)
-    println(iof, "x Absolute Change: ", res.x_abschange)
+
+    if res !== nothing
+        println(iof, "Number of Calls: ", Optim.f_calls(res))
+        println(iof, "Converged: ", Optim.converged(res))
+        println(iof, "Gradient Residual: ", res.g_residual)
+        println(iof, "x Absolute Change: ", res.x_abschange)
+    end
+
     close(iof)
+
     return
+
 end
 
 function implicit_burger_step(u0, params)
@@ -77,8 +84,6 @@ function implicit_burger_step(u0, params)
     Nx = prob.Nx
 
     BurgersEquation.burger_step(u0, u1, f, fprime, nflux, dt, dx, Nx)
-
-    prob.uk .= u1
 
     return u1
 
@@ -115,14 +120,14 @@ function residual_burger_step(r, u1, u0, params)
 
 end
 
-# wrap residual function in a explicit form for convenience and 
-# ensure type of r is appropriate
-function residual_wrap(yw, xw, pw)
-    T = promote_type(eltype(xw), eltype(yw))
-    rw = zeros(T, length(yw))  # match type of input variables
-    residual_burger_step(rw, yw, xw, pw)
-    return rw
-end
+# # wrap residual function in a explicit form for convenience and
+# # ensure type of r is appropriate
+# function residual_wrap(yw, xw, pw)
+#     T = promote_type(eltype(xw), eltype(yw))
+#     rw = zeros(T, length(yw))  # match type of input variables
+#     residual_burger_step(rw, yw, xw, pw)
+#     return rw
+# end
 
 function residual_jacobian_y(r, u1, u0, p)
     return LA.I
@@ -154,19 +159,21 @@ function my_burger_loop(
                 implicit_burger_step, residual_burger_step, u0, p;
                 drdy=residual_jacobian_y
             )
-            prob.uk .= u1
+            # prob.uk .= u1
         elseif mode == :svd
             u1 = IAD.implicit_svd(
                 implicit_burger_step, residual_burger_step, u0, p;
                 drdy=residual_jacobian_y
             )
-            prob.uk .= u1
+            # prob.uk .= u1
         else
             error("Unrecognized mode: $mode")
         end
 
+        # ReverseDiff.@skip(prob.uk .= u1)
+
         count += 1
-        BurgersEquation.save_solution(hist, u1, count, count * dt)
+        ReverseDiff.@skip(BurgersEquation.save_solution(hist, u1, count, count * dt))
 
         if progress
             PM.next!(pm)
@@ -175,9 +182,11 @@ function my_burger_loop(
         # @show eltype(u0)
         # @show eltype(u1)
 
-        u0 .= u1
+        u0 = u1
 
     end
+
+    prob.uk .= u0
 
     if progress
         PM.finish!(pm)
@@ -187,13 +196,7 @@ function my_burger_loop(
 
 end
 
-function burger_solution(
-    x,
-    p;
-    save::Bool=false,
-    progress::Bool=false,
-    mode::Symbol=:normal
-)
+function burger_setup(x, p; save::Bool=false)
 
     f(u) = 0.5 * u^2
     fu(u) = u
@@ -223,6 +226,23 @@ function burger_solution(
         u0, f, fu, p[:tf], dt, Nx, p[:flux];
         save_rate=save_rate
     )
+
+    return bp
+
+end
+
+function burger_solution(
+    x,
+    p;
+    save::Bool=false,
+    progress::Bool=false,
+    mode::Symbol=:normal
+)
+
+    bp = burger_setup(x, p; save=save)
+
+    # @show (bp.Nx, bp.Nt, bp.dx, bp.dt)
+
     p[:prob] = bp
     if mode == :normal
         BurgersEquation.solve(bp; progress=progress)
@@ -271,21 +291,45 @@ function tf_sin(x)
     return 0.5 + 0.2 * sin(2 * pi * x)
 end
 
-function tf_weierstrass(x; a=0.9, b=7, N=100)
-    return
-end
-
-# function tf_hat(x)
-#     return hat_function(x, 0.25, 0.75, 0.6, 0.45)
-# end
-
-# function tf_tophat(x)
-#     return (x < 0.25 || x > 0.75) ? 0.4 : 0.6
-# end
-
 function tf_cliff(x)
     # return x < 0.5 ? 0.6 : 0.4
     return x < 0.5 ? 0.2 * x + 0.5 : 0.2 * x + 0.3
+end
+
+function ic_weierstrass(x, a, b, N)
+    vmax = 0.9
+    vmin = 0.1
+    vmid = 0.5 * (vmax + vmin)
+
+    val = 0.0
+    wbd = 0.0
+    for n in 1:N
+        val += a^n * cos(b^n * pi * x)
+        wbd += a^n
+    end
+
+    val = 0.5 * (val + wbd) * (vmax - vmin) / wbd + vmin
+
+    return val
+end
+
+function tf_weierstrass(x, params; a=0.825, b=7, N=5)
+
+    Nx = params[:Nx]
+    u0 = zeros(eltype(x), Nx)
+
+    # sparams = copy(params)
+    # sparams[:Nx] = 2^14
+
+    for i in 1:Nx
+        xi = BurgersEquation.gridpoint(i, Nx)
+        u0[i] = ic_weierstrass(xi, a, b, N)
+    end
+
+    bp = burger_solution(u0, params)
+
+    return bp.uk
+
 end
 
 function initial_condition(x, p)
@@ -307,6 +351,11 @@ function target_condition(x, p)
 
     Nx = p[:Nx]
     target = p[:target]
+
+    if (target == tf_weierstrass)
+        return tf_weierstrass(x, p)
+    end
+
     utar = zeros(eltype(x), Nx)
 
     for i in 1:Nx
@@ -320,7 +369,8 @@ end
 
 function cost_u(x, p)
     bp = burger_solution(x, p; save=false, mode=p[:mode])
-    utar = target_condition(x, p)
+    # utar = target_condition(x, p)
+    utar = p[:target]
     dx = BurgersEquation.gridsize(p[:Nx])
     # return (bp.uk[end] - 1.0)^2
     return 0.5 * dx * LA.norm(bp.uk - utar)^2
@@ -343,7 +393,7 @@ function cost(x, p)
     a = 10.0
     b = 10.0
     scale = p[:scale]
-    return scale * (a * cost_x(x, p) + b * cost_u(x, p))
+    return scale * (b * cost_u(x, p) + a * cost_x(x, p))
 end
 
 function svd_dimensions(ngrid)
@@ -351,6 +401,151 @@ function svd_dimensions(ngrid)
     m = 2^Int(ceil(k / 2))
     n = 2^Int(floor(k / 2))
     return (m, n)
+end
+
+function run_optimization(case, x0, f, fgrad, my_options)
+
+    runtime = @elapsed begin
+
+        if case == :forward
+
+            # Optimization with FD
+            println("-------- Running Optimimzation with ForwardDiff --------")
+            @time res = Optim.optimize(
+                f,
+                x0,
+                Optim.BFGS(),
+                my_options;
+                autodiff=:forward, # uses ForwardDiff.jl
+            )
+
+        elseif case == :finitediff
+
+            # Optimization with finite differences
+            println("-------- Running Optimimzation with Finite Diff --------")
+            @time res = Optim.optimize(
+                f,
+                x0,
+                Optim.BFGS(),
+                my_options;
+            )
+
+        elseif case == :reverse || case == :impreverse || case == :dirreverse
+
+            # Optimization with RD
+            println("-------- Running Optimimzation with ReverseDiff --------")
+            @time res = Optim.optimize(
+                f,
+                fgrad,
+                x0,
+                Optim.BFGS(),
+                my_options;
+            )
+
+            # elseif case == :svdforward
+
+            #     # Optimization with SVD and FD
+            #     println("-------- Running Optimimzation with SVD and ForwardDiff --------")
+            #     @time res = Optim.optimize(
+            #         svd_objective,
+            #         # svd_gradient,
+            #         # lb,
+            #         # ub,
+            #         x0,
+            #         # Optim.Fminbox(Optim.BFGS()),
+            #         Optim.BFGS(),
+            #         my_options;
+            #         autodiff=:forward, # uses ForwardDiff.jl
+            #     )
+
+        elseif case == :svdreverse
+
+            # Optimization with SVD and RD
+            println("-------- Running Optimimzation with SVD and ReverseDiff --------")
+            @time res = Optim.optimize(
+                f,
+                fgrad,
+                x0,
+                Optim.BFGS(),
+                my_options;
+            )
+
+        else
+
+            error("Unrecognized execution mode: $(case)")
+
+        end
+    end
+
+    @show Optim.converged(res)
+    @show Optim.minimum(res)
+    @show res
+    xsol = Optim.minimizer(res)
+
+    return runtime, xsol, res
+
+end
+
+function finite_diff_gradient(g0, f, x0)
+
+    # Done has described in Optim.jl documentation
+    dx = eps(eltype(x0))^(1 / 3)
+    xp = similar(x0)
+
+    for k in eachindex(x0)
+        # xp .= x0
+        copyto!(xp, x0)
+        xp[k] += dx
+        fp = f(xp)
+        xp[k] = x0[k] - dx
+        fm = f(xp)
+        g0[k] = 0.5 * (fp - fm) / dx
+    end
+
+    return
+
+end
+
+function run_gradient(case, x0, g0, f, fgrad)
+
+    runtime = @elapsed begin
+
+        if case == :forward
+
+            # Optimization with FD
+            println("-------- Evaluating Gradient with ForwardDiff --------")
+            # Force compilation
+            @time ForwardDiff.gradient!(g0, f, x0)
+
+        elseif case == :finitediff
+
+            # Optimization with finite differences
+            println("-------- Evaluating Gradient with Finite Diff --------")
+            # dx = sqrt(eps)
+            @time finite_diff_gradient(g0, f, x0)
+
+        elseif case == :reverse || case == :impreverse || case == :dirreverse
+
+            # Optimization with RD
+            println("-------- Evaluating Gradient with ReverseDiff --------")
+            @time fgrad(g0, x0)
+
+        elseif case == :svdreverse
+
+            # Optimization with SVD and RD
+            println("-------- Evaluating Gradient with SVD and ReverseDiff --------")
+            @time fgrad(g0, x0)
+
+        else
+
+            error("Unrecognized execution mode: $(case)")
+
+        end
+
+    end
+
+    return (runtime, x0)
+
 end
 
 function main(ARGS)
@@ -379,6 +574,12 @@ function main(ARGS)
         "--extended-trace"
         help = "print the extended trace from the optimization"
         action = :store_true
+        "--optimization"
+        help = "run optimization benchmark problem"
+        action = :store_true
+        "--gradient"
+        help = "run single gradient evaluation"
+        action = :store_true
         # "--opt2", "-o"
         # help = "another option with an argument"
         # arg_type = Int
@@ -392,6 +593,12 @@ function main(ARGS)
     end
 
     parsed_args = ArgParse.parse_args(ARGS, s)
+
+    if parsed_args["optimization"] && parsed_args["gradient"]
+        error("Both --optimization and --gradient flags have been set.")
+    end
+
+    optimization = (parsed_args["optimization"] || !parsed_args["gradient"])
 
     case = Symbol(lowercase(parsed_args["case"]))
     k = parsed_args["gridsize"]
@@ -407,6 +614,8 @@ function main(ARGS)
         tar_func = tf_sin
     elseif (tarf == :cliff)
         tar_func = tf_cliff
+    elseif (tarf == :weierstrass)
+        tar_func = tf_weierstrass
     else
         error("Unknown target function: $(tarf)")
     end
@@ -424,7 +633,7 @@ function main(ARGS)
     umax = 0.505
     umin = 0.495
     # x0 = fill(0.5, Nx)
-    x0 = (umax - umin) .* randn(Nx) .+ 0.5 * (umax + umin)
+    x0 = (umax - umin) .* randn(rng, Nx) .+ 0.5 * (umax + umin)
 
     (m, n) = svd_dimensions(Nx)
     @show (m, n)
@@ -443,9 +652,6 @@ function main(ARGS)
         show_trace=(parsed_args["trace"] | parsed_args["extended-trace"]),
     )
 
-    # lb = zeros(Nx)
-    # ub = fill(Inf, Nx)
-
     my_params = Dict(
         :Nx => Nx,
         :cfl => cfl,
@@ -457,159 +663,126 @@ function main(ARGS)
         :mode => :normal,
     )
 
-    @show my_params
+    # rvs_params = copy(my_params)
+    # rvs_params[:mode] = :direct
 
-    rvs_params = copy(my_params)
-    rvs_params[:mode] = :direct
+    # svd_params = copy(my_params)
+    # svd_params[:mode] = :svd
+    # # svd_params[:nsv] = 8
+    # svd_params[:tol] = 1e-5
+    # svd_params[:forward_svd] = true
+    # svd_params[:matdim] = (m, n)
 
-    svd_params = copy(my_params)
-    svd_params[:mode] = :svd
-    # svd_params[:nsv] = 8
-    svd_params[:tol] = 1e-5
-    svd_params[:forward_svd] = true
-    svd_params[:matdim] = (m, n)
+    if case == :reverse || case == :impreverse || case == :dirreverse
+
+        if case == :reverse
+            my_params[:mode] = :normal
+        elseif case == :dirreverse
+            my_params[:mode] = :direct
+        else
+            my_params[:mode] = :implicit
+        end
+
+        # rvs_objective(x) = cost(x, my_params)
+        function rvs_gradient(g, x)
+            RD.gradient!(g, my_objective, x)
+            return
+        end
+
+        my_gradient = rvs_gradient
+
+    elseif case == :svdreverse
+
+        my_params[:mode] = :svd
+        my_params[:tol] = 1e-5
+        my_params[:matdim] = (m, n)
+
+        # my_objective(x) = cost(x, my_params)
+        function svd_gradient(g, x)
+            RD.gradient!(g, my_objective, x)
+            return
+        end
+
+        my_gradient = svd_gradient
+
+    else
+
+        function no_gradient(g, x)
+            return
+        end
+
+        my_gradient = no_gradient
+
+    end
 
     my_objective(x) = cost(x, my_params)
 
-    rvs_objective(x) = cost(x, rvs_params)
-    function rvs_gradient(g, x)
-        RD.gradient!(g, rvs_objective, x)
-        return
+    @show my_params
+    my_params[:target] = target_condition(x0, my_params)
+
+    if optimization
+        (runtime, xsol, res) = run_optimization(
+            case, x0,
+            my_objective, my_gradient, my_options,
+        )
+    else
+        g0 = similar(x0)
+        (runtime, xsol) = run_gradient(
+            case, x0, g0,
+            my_objective, my_gradient,
+        )
+        res = nothing
     end
-
-    svd_objective(x) = cost(x, svd_params)
-    function svd_gradient(g, x)
-        RD.gradient!(g, svd_objective, x)
-        return
-    end
-
-    run_time = @elapsed begin
-
-        if case == :forward
-
-            # Optimization with FD
-            println("-------- Running Optimimzation with ForwardDiff --------")
-            @time res = Optim.optimize(
-                my_objective,
-                # lb,
-                # ub,
-                x0,
-                # Optim.Fminbox(Optim.BFGS(linesearch=LineSearches.BackTracking(order=3))),
-                # Optim.Fminbox(Optim.BFGS()),
-                Optim.BFGS(),
-                my_options;
-                autodiff=:forward, # uses ForwardDiff.jl
-            )
-
-        elseif case == :finitediff
-
-            # Optimization with finite differences
-            println("-------- Running Optimimzation with Finite Diff --------")
-            @time res = Optim.optimize(
-                my_objective,
-                # lb,
-                # ub,
-                x0,
-                # Optim.Fminbox(Optim.BFGS()),
-                Optim.BFGS(),
-                my_options;
-            )
-
-        elseif case == :reverse
-
-            # Optimization with RD
-            println("-------- Running Optimimzation with ReverseDiff --------")
-            @time res = Optim.optimize(
-                rvs_objective,
-                rvs_gradient,
-                # lb,
-                # ub,
-                x0,
-                # Optim.Fminbox(Optim.BFGS(linesearch=LineSearches.BackTracking(order=3))),
-                # Optim.Fminbox(Optim.BFGS()),
-                Optim.BFGS(),
-                my_options;
-            )
-
-        elseif case == :svdforward
-
-            # Optimization with SVD and FD
-            println("-------- Running Optimimzation with SVD and ForwardDiff --------")
-            @time res = Optim.optimize(
-                svd_objective,
-                # svd_gradient,
-                # lb,
-                # ub,
-                x0,
-                # Optim.Fminbox(Optim.BFGS()),
-                Optim.BFGS(),
-                my_options;
-                autodiff=:forward, # uses ForwardDiff.jl
-            )
-
-        elseif case == :svdreverse
-
-            # Optimization with SVD and RD
-            println("-------- Running Optimimzation with SVD and ReverseDiff --------")
-            @time res = Optim.optimize(
-                svd_objective,
-                svd_gradient,
-                # lb,
-                # ub,
-                x0,
-                # Optim.Fminbox(Optim.BFGS()),
-                Optim.BFGS(),
-                my_options;
-            )
-
-        else
-
-            error("Unrecognized execution mode: $(case)")
-
-        end
-
-    end
-
-    @show Optim.converged(res)
-    @show Optim.minimum(res)
-    @show res
-
-    # ncalls = Optim.f_calls(res)
-    xsol = Optim.minimizer(res)
-    bp = burger_solution(xsol, my_params; save=true)
-    umax = max(maximum(bp.u0), 1.0)
-    umin = min(minimum(bp.u0), 0.0)
-    p = plot(
-        BurgersEquation.space_grid(Nx),
-        BurgersEquation.expand_solution(bp.uk);
-        legend=true, label="solution", ylim=(umin, umax),
-    )
-    plot!(
-        p,
-        BurgersEquation.space_grid(Nx),
-        BurgersEquation.expand_solution(target_condition(xsol, my_params)),
-        label="target"
-    )
-    plot!(
-        p, BurgersEquation.space_grid(Nx), BurgersEquation.expand_solution(bp.u0),
-        label="initial_condition"
-    )
 
     sys_dir = Sys.isapple() ? "local" : "kestrel"
+    mode_dir = optimization ? "optimization" : "gradient"
 
-    fbase = joinpath(
+    fdir = joinpath(
         @__DIR__,
         "results",
         sys_dir,
+        mode_dir,
         string(tarf),
+    )
+    mkpath(fdir)
+    fbase = joinpath(
+        fdir,
         "large_scale_burger_solution_$(case)_n$(Nx)_s$(seed)"
     )
+    println("Saving results to: ", fbase)
     CSV.write(fbase * ".csv", Tables.table(xsol); header=false)
-    png(p, fbase)
-    dump_info(fbase * ".txt", run_time, res)
+
+    dump_info(fbase * ".txt", runtime, res)
+
+    if optimization
+        # ncalls = Optim.f_calls(res)
+        bp = burger_solution(xsol, my_params; save=true)
+        umax = max(maximum(bp.u0), 1.0)
+        umin = min(minimum(bp.u0), 0.0)
+        p = plot(
+            BurgersEquation.space_grid(Nx),
+            BurgersEquation.expand_solution(bp.uk);
+            legend=true, label="solution", ylim=(umin, umax), dpi=300,
+        )
+        plot!(
+            p,
+            BurgersEquation.space_grid(Nx),
+            BurgersEquation.expand_solution(my_params[:target]),
+            label="target"
+        )
+        plot!(
+            p, BurgersEquation.space_grid(Nx), BurgersEquation.expand_solution(bp.u0),
+            label="initial_condition"
+        )
+        png(p, fbase)
+    end
+
+    println("------------------------ Done ------------------------")
 
     return
 
 end
 
-main(ARGS)
+if PROGRAM_FILE == @__FILE__
+    main(ARGS)
+end

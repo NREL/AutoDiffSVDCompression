@@ -39,14 +39,13 @@ function main()
     RUNNING_KESTREL = Sys.islinux()
     # RUNNING_KESTREL = true
 
-    # ad_modes = [:forward, :reverse, :finitediff, :svdforward, :svdreverse]
-    ad_modes = [:forward, :reverse, :svdreverse, :finitediff]
-    # ad_modes = [:svdreverse]
-    grid_sizes = 4:14
-    # grid_sizes = 4:6
-    seeds = 1:10
-    # seeds = 1:2
-    targets = [:sin, :cliff]
+    ad_modes = [:forward, :reverse, :dirreverse, :impreverse, :svdreverse, :finitediff]
+    # ad_modes = [:reverse, :impreverse]
+    grid_sizes = 4:16
+    # seeds = 1:10
+    seeds = 1:1
+    # targets = [:sin, :cliff, :weierstrass]
+    targets = [:cliff, :weierstrass]
 
     println("Sweeping through AD modes: ", ad_modes)
     println("With grid sizes: ", 2 .^ grid_sizes)
@@ -55,20 +54,34 @@ function main()
 
     burger_script = joinpath(@__DIR__, "burgers_large_scale.jl")
 
-    for tar in targets
-        for k in grid_sizes
+    for k in grid_sizes
+        for tar in targets
             for ad in ad_modes
                 for seed in seeds
-                    if (k > 11 && ad == :finitediff) || (k > 12 && ad == :forward)
+                    #### Optimization Excludes ####
+                    # if (k > 11 && ad == :finitediff
+                    #     || k > 12 && ad == :forward
+                    #     || k > 12 && ad == :reverse && !RUNNING_KESTREL
+                    #     || k > 12 && ad == :dirreverse && !RUNNING_KESTREL
+                    #     )
+                    #     continue
+                    # end
+                    #### Gradient Evaluation Excludes ####
+                    if (k > 13 && ad == :finitediff
+                        || k > 14 && ad == :forward
+                        || k > 13 && ad == :reverse
+                        || k > 13 && ad == :dirreverse
+                    )
                         continue
-                    elseif RUNNING_KESTREL
+                    end
+                    if RUNNING_KESTREL
                         sbatch_file = write_sbatch_script(ad, k, seed, tar, burger_script)
                         cmd = `sbatch $sbatch_file`
                         println(cmd)
                         run(cmd)
                     else
                         println("Running job: (", ad, ", ", k, ", ", seed, ", ", tar, ")")
-                        cmd = `julia $burger_script --case=$(ad) --gridsize=$(k) --seed=$(seed) --target=$(tar) --trace`
+                        cmd = `julia $burger_script --case=$(ad) --gridsize=$(k) --seed=$(seed) --target=$(tar) --trace --gradient`
                         println(cmd)
                         run(cmd)
                     end
