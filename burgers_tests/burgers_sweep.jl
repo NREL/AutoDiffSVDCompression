@@ -24,6 +24,8 @@ source \${HOME}/.bash_profile
 module load julia/1.11
 cd /projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests
 
+export OMP_NUM_THREADS=8
+
 julia $script --case=$(ad) --gridsize=$(k) --seed=$(run) --target=$(target) --trace --$(mode_arg)
 """
     script = header * body
@@ -58,12 +60,13 @@ function main()
 
     optimization = false
     ad_modes = [:forward, :reverse, :dirreverse, :impreverse, :svdreverse, :finitediff]
-    # ad_modes = [:reverse, :impreverse]
-    grid_sizes = 6:8
-    # seeds = 1:10
-    seeds = 1:1
-    # targets = [:sin, :cliff, :weierstrass]
-    targets = [:sin]
+    # ad_modes = [:forward, :impreverse]
+    grid_sizes = 4:16
+    # grid_sizes = 8:8
+    seeds = 1:10
+    # seeds = 1:1
+    targets = [:sin, :cliff, :weierstrass]
+    # targets = [:sin]
 
     println("Sweeping through AD modes: ", ad_modes)
     println("With grid sizes: ", 2 .^ grid_sizes)
@@ -77,15 +80,17 @@ function main()
             for ad in ad_modes
                 for seed in seeds
                     #### Optimization Excludes ####
-                    # if (k > 11 && ad == :finitediff
-                    #     || k > 12 && ad == :forward
-                    #     || k > 12 && ad == :reverse && !RUNNING_KESTREL
-                    #     || k > 12 && ad == :dirreverse && !RUNNING_KESTREL
-                    #     )
-                    #     continue
-                    # end
+                    if optimization &&
+                        (k > 11 && ad == :finitediff
+                        || k > 12 && ad == :forward
+                        || k > 12 && ad == :reverse
+                        || k > 12 && ad == :dirreverse
+                    )
+                        continue
+                    end
                     #### Gradient Evaluation Excludes ####
-                    if (k > 13 && ad == :finitediff
+                    if !optimization &&
+                        (k > 13 && ad == :finitediff
                         || k > 14 && ad == :forward
                         || k > 13 && ad == :reverse
                         || k > 13 && ad == :dirreverse
@@ -93,7 +98,8 @@ function main()
                         continue
                     end
                     if RUNNING_KESTREL
-                        sbatch_file = write_sbatch_script(ad, k, seed, tar, burger_script; optimization=optimization)
+                        sbatch_file = write_sbatch_script(ad, k, seed, tar, burger_script;
+                                                          optimization=optimization)
                         cmd = `sbatch $sbatch_file`
                         println(cmd)
                         run(cmd)
