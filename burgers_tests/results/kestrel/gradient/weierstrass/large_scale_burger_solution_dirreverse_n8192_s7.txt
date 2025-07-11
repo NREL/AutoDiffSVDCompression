@@ -1,0 +1,4 @@
+GC live:   10501.839 MiB
+JIT:           2.099 MiB
+Max. RSS:  162411.297 MiB
+Seconds: 1011.879168643

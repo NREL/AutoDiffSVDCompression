@@ -1,0 +1,11 @@
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+tf = 1.0
+Nx = 512
+tar_func = Main.tf_sin
+seed = 2
+(m, n) = (32, 16)
+my_params = Dict{Symbol, Any}(:Nx => 512, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Evaluating Gradient with ReverseDiff --------
+  5.577254 seconds (24.77 M allocations: 1019.204 MiB, 15.56% gc time, 61.12% compilation time)
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/gradient/sin/large_scale_burger_solution_reverse_n512_s2
+------------------------ Done ------------------------

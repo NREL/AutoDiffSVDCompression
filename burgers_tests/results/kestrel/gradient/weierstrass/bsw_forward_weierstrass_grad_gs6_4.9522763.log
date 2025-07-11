@@ -1,0 +1,11 @@
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+tf = 1.0
+Nx = 64
+tar_func = Main.tf_weierstrass
+seed = 4
+(m, n) = (8, 8)
+my_params = Dict{Symbol, Any}(:Nx => 64, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_weierstrass, :tf => 1.0)
+-------- Evaluating Gradient with ForwardDiff --------
+  1.282980 seconds (4.29 M allocations: 221.900 MiB, 1.71% gc time, 99.65% compilation time)
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/gradient/weierstrass/large_scale_burger_solution_forward_n64_s4
+------------------------ Done ------------------------

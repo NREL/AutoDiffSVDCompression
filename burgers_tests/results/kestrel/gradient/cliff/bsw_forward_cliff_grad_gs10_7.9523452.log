@@ -1,0 +1,11 @@
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+tf = 1.0
+Nx = 1024
+tar_func = Main.tf_cliff
+seed = 7
+(m, n) = (32, 32)
+my_params = Dict{Symbol, Any}(:Nx => 1024, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_cliff, :tf => 1.0)
+-------- Evaluating Gradient with ForwardDiff --------
+ 20.311347 seconds (765.12 M allocations: 61.939 GiB, 14.26% gc time, 10.83% compilation time)
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/gradient/cliff/large_scale_burger_solution_forward_n1024_s7
+------------------------ Done ------------------------

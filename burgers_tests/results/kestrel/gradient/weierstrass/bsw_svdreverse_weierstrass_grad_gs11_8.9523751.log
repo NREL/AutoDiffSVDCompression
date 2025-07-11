@@ -1,0 +1,11 @@
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+tf = 1.0
+Nx = 2048
+tar_func = Main.tf_weierstrass
+seed = 8
+(m, n) = (64, 32)
+my_params = Dict{Symbol, Any}(:Nx => 2048, :flux => :lf, :ic => Main.grid_control, :mode => :svd, :tol => 1.0e-5, :matdim => (64, 32), :cfl => 0.85, :scale => 100.0, :target => Main.tf_weierstrass, :tf => 1.0)
+-------- Evaluating Gradient with SVD and ReverseDiff --------
+ 28.367476 seconds (448.88 M allocations: 19.578 GiB, 6.86% gc time, 12.85% compilation time)
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/gradient/weierstrass/large_scale_burger_solution_svdreverse_n2048_s8
+------------------------ Done ------------------------

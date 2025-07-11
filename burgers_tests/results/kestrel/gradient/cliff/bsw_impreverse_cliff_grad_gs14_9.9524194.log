@@ -1,0 +1,11 @@
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+tf = 1.0
+Nx = 16384
+tar_func = Main.tf_cliff
+seed = 9
+(m, n) = (128, 128)
+my_params = Dict{Symbol, Any}(:Nx => 16384, :flux => :lf, :ic => Main.grid_control, :mode => :implicit, :cfl => 0.85, :scale => 100.0, :target => Main.tf_cliff, :tf => 1.0)
+-------- Evaluating Gradient with ReverseDiff --------
+1611.878045 seconds (25.89 G allocations: 945.395 GiB, 8.25% gc time, 0.20% compilation time)
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/gradient/cliff/large_scale_burger_solution_impreverse_n16384_s9
+------------------------ Done ------------------------

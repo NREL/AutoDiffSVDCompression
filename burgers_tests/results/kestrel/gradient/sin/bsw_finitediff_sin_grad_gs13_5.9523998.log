@@ -1,0 +1,11 @@
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+tf = 1.0
+Nx = 8192
+tar_func = Main.tf_sin
+seed = 5
+(m, n) = (128, 64)
+my_params = Dict{Symbol, Any}(:Nx => 8192, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Evaluating Gradient with Finite Diff --------
+96879.033992 seconds (9.72 T allocations: 141.454 TiB, 11.48% gc time, 0.00% compilation time)
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/gradient/sin/large_scale_burger_solution_finitediff_n8192_s5
+------------------------ Done ------------------------

@@ -58,15 +58,15 @@ function main()
     RUNNING_KESTREL = Sys.islinux()
     # RUNNING_KESTREL = true
 
-    optimization = false
-    ad_modes = [:forward, :reverse, :dirreverse, :impreverse, :svdreverse, :finitediff]
-    # ad_modes = [:forward, :impreverse]
-    grid_sizes = 4:16
+    optimization = true
+    # ad_modes = [:forward, :reverse, :dirreverse, :impreverse, :svdreverse, :finitediff]
+    ad_modes = [:svdreverse,]
+    grid_sizes = 8:12
     # grid_sizes = 8:8
-    seeds = 1:10
+    seeds = 1:1
     # seeds = 1:1
-    targets = [:sin, :cliff, :weierstrass]
-    # targets = [:sin]
+    # targets = [:sin, :cliff, :weierstrass]
+    targets = [:sin]
 
     println("Sweeping through AD modes: ", ad_modes)
     println("With grid sizes: ", 2 .^ grid_sizes)
@@ -81,7 +81,7 @@ function main()
                 for seed in seeds
                     #### Optimization Excludes ####
                     if optimization &&
-                        (k > 11 && ad == :finitediff
+                       (k > 11 && ad == :finitediff
                         || k > 12 && ad == :forward
                         || k > 12 && ad == :reverse
                         || k > 12 && ad == :dirreverse
@@ -90,7 +90,7 @@ function main()
                     end
                     #### Gradient Evaluation Excludes ####
                     if !optimization &&
-                        (k > 13 && ad == :finitediff
+                       (k > 13 && ad == :finitediff
                         || k > 14 && ad == :forward
                         || k > 13 && ad == :reverse
                         || k > 13 && ad == :dirreverse
@@ -99,7 +99,7 @@ function main()
                     end
                     if RUNNING_KESTREL
                         sbatch_file = write_sbatch_script(ad, k, seed, tar, burger_script;
-                                                          optimization=optimization)
+                            optimization=optimization)
                         cmd = `sbatch $sbatch_file`
                         println(cmd)
                         run(cmd)

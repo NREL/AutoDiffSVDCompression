@@ -1,0 +1,11 @@
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+tf = 1.0
+Nx = 128
+tar_func = Main.tf_cliff
+seed = 2
+(m, n) = (16, 8)
+my_params = Dict{Symbol, Any}(:Nx => 128, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_cliff, :tf => 1.0)
+-------- Evaluating Gradient with Finite Diff --------
+  1.684879 seconds (35.20 M allocations: 564.647 MiB, 4.31% gc time, 76.92% compilation time)
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/gradient/cliff/large_scale_burger_solution_finitediff_n128_s2
+------------------------ Done ------------------------

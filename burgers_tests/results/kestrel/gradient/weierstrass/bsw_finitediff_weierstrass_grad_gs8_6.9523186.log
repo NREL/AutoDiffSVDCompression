@@ -1,0 +1,11 @@
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+tf = 1.0
+Nx = 256
+tar_func = Main.tf_weierstrass
+seed = 6
+(m, n) = (16, 16)
+my_params = Dict{Symbol, Any}(:Nx => 256, :flux => :lf, :ic => Main.grid_control, :mode => :normal, :cfl => 0.85, :scale => 100.0, :target => Main.tf_weierstrass, :tf => 1.0)
+-------- Evaluating Gradient with Finite Diff --------
+  2.947479 seconds (274.16 M allocations: 4.099 GiB, 10.84% gc time, 3.36% compilation time)
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/gradient/weierstrass/large_scale_burger_solution_finitediff_n256_s6
+------------------------ Done ------------------------
