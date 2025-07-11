@@ -174,6 +174,33 @@ function setup(
 
 end
 
+function setup(
+    u0::AbstractVector,
+    f::Function,
+    fprime::Function,
+    tf::Real,
+    Nt::Integer,
+    Nx::Integer,
+    flux::Symbol=:lax_wendroff;
+    save_rate=-1
+)
+
+    dx = gridsize(Nx)
+    dt = tf / Nt
+
+    nflux = fetch_numerical_flux(flux)
+
+    hist = save_rate > 0 ? BurgersHistory(save_rate, eltype(u0)) : nothing
+
+    save_solution(hist, u0, 0, zero(eltype(u0)))
+
+    prob = BurgersProblem(Nx, Nt, dt, dx, tf, u0, copy(u0), copy(u0),
+        f, fprime, nflux, hist)
+
+    return prob
+
+end
+
 function run(
     u0::AbstractVector,
     f::Function,
@@ -186,6 +213,22 @@ function run(
     save_rate=-1,
 )
     prob = setup(u0, f, fprime, tf, dt, Nx, flux; save_rate)
+    burger_loop(prob; progress)
+    return
+end
+
+function run(
+    u0::AbstractVector,
+    f::Function,
+    fprime::Function,
+    tf::Real,
+    Nt::Integer,
+    Nx::Integer,
+    flux::Symbol=:lax_wendroff;
+    progress=false,
+    save_rate=-1,
+)
+    prob = setup(u0, f, fprime, tf, Nt, Nx, flux; save_rate)
     burger_loop(prob; progress)
     return
 end

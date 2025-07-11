@@ -60,13 +60,13 @@ function main()
 
     optimization = true
     # ad_modes = [:forward, :reverse, :dirreverse, :impreverse, :svdreverse, :finitediff]
-    ad_modes = [:svdreverse,]
-    grid_sizes = 8:12
-    # grid_sizes = 8:8
-    seeds = 1:1
+    ad_modes = [:svdreverse, :impreverse]
+    # grid_sizes = 4:16
+    grid_sizes = 12:12
+    seeds = 1:10
     # seeds = 1:1
-    # targets = [:sin, :cliff, :weierstrass]
-    targets = [:sin]
+    targets = [:sin, :cliff, :weierstrass]
+    # targets = [:sin]
 
     println("Sweeping through AD modes: ", ad_modes)
     println("With grid sizes: ", 2 .^ grid_sizes)
