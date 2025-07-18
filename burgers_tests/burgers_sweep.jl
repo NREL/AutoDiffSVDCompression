@@ -101,7 +101,7 @@ function main()
                         sbatch_file = write_sbatch_script(ad, k, seed, tar, burger_script;
                             optimization=optimization)
                         cmd = `sbatch $sbatch_file`
-                        println(cmd)
+                        # println(cmd)
                         run(cmd)
                     else
                         println("Running job: (", ad, ", ", k, ", ", seed, ", ", tar, ")")

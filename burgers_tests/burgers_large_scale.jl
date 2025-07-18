@@ -278,8 +278,8 @@ function main(ARGS)
     seed = parsed_args["seed"]
     @show seed
     rng = Random.MersenneTwister(seed)
-    umax = 0.505
-    umin = 0.495
+    umax = 0.55
+    umin = 0.45
     # x0 = fill(0.5, Nx)
     x0 = (umax - umin) .* randn(rng, Nx) .+ 0.5 * (umax + umin)
 

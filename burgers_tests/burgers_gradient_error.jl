@@ -42,8 +42,8 @@ function run_gradient_error(
 )
 
     npoints = nstart * (ndescent + 1)
-    umin = 0.4
-    umax = 0.6
+    umin = 0.45
+    umax = 0.55
 
     x0 = zeros(Nx)
     random_initial_point(x0, seed, Nx, umin, umax)
@@ -236,7 +236,8 @@ function main(ARGS)
 
     parsed_args = ArgParse.parse_args(ARGS, s)
 
-    grid_sizes = 4:14
+    grid_sizes = 4:16
+    # grid_sizes = 11:16
     targets = [:sin, :cliff, :weierstrass]
 
     tf = 1.0
