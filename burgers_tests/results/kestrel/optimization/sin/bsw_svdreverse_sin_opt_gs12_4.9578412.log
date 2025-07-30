@@ -1,0 +1,52 @@
+tf = 1.0
+Nx = 4096
+tar_func = Main.tf_sin
+seed = 4
+(m, n) = (64, 64)
+my_params = Dict{Symbol, Any}(:Nx => 4096, :flux => :lf, :ic => Main.grid_control, :mode => :svd, :tol => 1.0e-5, :matdim => (64, 64), :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+Iter     Function value   Gradient norm 
+     0     1.553029e+01     1.277674e-01
+ * time: 0.019683122634887695
+     1     6.953224e+00     6.614115e-02
+ * time: 478.95223116874695
+     2     5.175675e+00     1.922876e-02
+ * time: 908.2290451526642
+     3     5.013042e+00     3.798925e-03
+ * time: 1271.5605850219727
+     4     5.004517e+00     1.005990e-03
+ * time: 1620.778743982315
+     5     5.003928e+00     5.465825e-04
+ * time: 1964.891653060913
+     6     5.003876e+00     2.424418e-04
+ * time: 2308.498668193817
+     7     5.003866e+00     7.833389e-05
+ * time: 2651.0931260585785
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+2837.035604 seconds (53.14 G allocations: 1.949 TiB, 8.15% gc time, 0.17% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.003866116779482
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.003866e+00
+
+ * Found with
+    Algorithm:     L-BFGS
+
+ * Convergence measures
+    |x - x'|               = 8.90e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 1.48e-03 ≰ 0.0e+00
+    |f(x) - f(x')|         = 1.01e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 2.02e-06 ≰ 0.0e+00
+    |g(x)|                 = 7.83e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   2651  (vs limit Inf)
+    Iterations:    7
+    f(x) calls:    22
+    ∇f(x) calls:   22
+
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/optimization/sin/large_scale_burger_solution_svdreverse_n4096_s4
+------------------------ Done ------------------------

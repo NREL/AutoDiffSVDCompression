@@ -1,8 +1,11 @@
 
+import Distributed
+import Random
 import ReverseDiff
 
 import ImplicitAD as IAD
 import LinearAlgebra as LA
+import ReverseDiff as RD
 
 using BurgersEquation
 import BurgersEquation as BE
@@ -354,4 +357,74 @@ function svd_dimensions(ngrid)
     m = 2^Int(ceil(k / 2))
     n = 2^Int(floor(k / 2))
     return (m, n)
+end
+
+function make_case_string(Nx::Integer, target::Symbol)
+    return "$(target)_gs$(Nx)"
+end
+
+function random_initial_point(x0, seed, Nx, umin, umax)
+    rng = Random.MersenneTwister(seed)
+    x0 .= (umax - umin) .* randn(rng, Nx) .+ 0.5 * (umax + umin)
+    return x0
+end
+
+function gradient_descent_step(x0, gradf0, alpha)
+    x0 .-= alpha .* gradf0
+    return x0
+end
+
+struct MyResult
+    idx::Int
+    gres::Float64
+    ginf::Float64
+    gmag::Float64
+    svdmag::Float64
+    dp::Float64
+end
+
+function gradient_error_inner_loop(
+    result_channel,
+    seed, ndescent, Nx, fgrad, fgrad_svd, alpha,
+    job,
+)
+
+    # error("STOP!!!")
+
+    umin = 0.45
+    umax = 0.55
+
+    x0 = zeros(Nx)
+    offset = (ndescent + 1) * (job - 1)
+    # @show seed + offset
+    random_initial_point(x0, seed + offset, Nx, umin, umax)
+    gtrue = zeros(Nx)
+    gsvd = zeros(Nx)
+    gerr = zeros(Nx)
+
+    for step in 0:ndescent
+
+        my_idx = offset + step + 1
+
+        fgrad(gtrue, x0)
+        fgrad_svd(gsvd, x0)
+
+        gerr .= gsvd .- gtrue
+
+        gres = LA.norm(gerr, 2)
+        ginf = LA.norm(gerr, Inf)
+        gmag = LA.norm(gtrue, 2)
+        svdmag = LA.norm(gsvd, 2)
+        dp = LA.dot(gtrue, gsvd)
+
+        my_result = MyResult(my_idx, gres, ginf, gmag, svdmag, dp)
+        # println("Queueing result")
+        put!(result_channel, my_result)
+
+        gradient_descent_step(x0, gtrue, alpha)
+
+    end
+
+    return
+
 end

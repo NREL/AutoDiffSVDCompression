@@ -1,0 +1,144 @@
+tf = 1.0
+Nx = 4096
+tar_func = Main.tf_weierstrass
+seed = 3
+(m, n) = (64, 64)
+my_params = Dict{Symbol, Any}(:Nx => 4096, :flux => :lf, :ic => Main.grid_control, :mode => :svd, :tol => 1.0e-5, :matdim => (64, 64), :cfl => 0.85, :scale => 100.0, :target => Main.tf_weierstrass, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+Iter     Function value   Gradient norm 
+     0     6.615754e+00     9.763305e-02
+ * time: 0.019756078720092773
+     1     1.688880e+00     4.860476e-02
+ * time: 390.34313702583313
+     2     1.481873e+00     4.790521e-02
+ * time: 616.3221480846405
+     3     1.141913e+00     4.036188e-02
+ * time: 948.5286881923676
+     4     9.073079e-01     2.803220e-02
+ * time: 1283.5279681682587
+     5     8.586294e-01     2.534345e-02
+ * time: 1493.7904891967773
+     6     8.370767e-01     1.934724e-02
+ * time: 1705.015200138092
+     7     8.252065e-01     1.836290e-02
+ * time: 2020.7739751338959
+     8     8.149733e-01     1.412624e-02
+ * time: 2337.356861114502
+     9     8.088590e-01     1.145580e-02
+ * time: 2547.1620421409607
+    10     8.049710e-01     6.418855e-03
+ * time: 2756.8179411888123
+    11     8.037163e-01     6.136997e-03
+ * time: 2965.4619920253754
+    12     8.019966e-01     4.320811e-03
+ * time: 3278.719390153885
+    13     8.011422e-01     2.999749e-03
+ * time: 3590.1452980041504
+    14     8.007855e-01     2.523457e-03
+ * time: 3903.837375164032
+    15     8.005192e-01     1.348913e-03
+ * time: 4218.849868059158
+    16     8.004368e-01     1.156344e-03
+ * time: 4535.092979192734
+    17     8.003071e-01     6.483481e-04
+ * time: 4849.983090162277
+    18     8.002859e-01     4.911194e-04
+ * time: 5164.029316186905
+    19     8.002747e-01     2.882431e-04
+ * time: 5477.965083122253
+    20     8.002464e-01     1.958869e-04
+ * time: 5792.652559995651
+    21     8.002450e-01     1.218816e-04
+ * time: 6111.049392223358
+    22     8.002440e-01     1.786025e-04
+ * time: 6430.263246059418
+    23     8.002434e-01     1.189691e-04
+ * time: 12115.399064064026
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+ERROR: LoadError: LinearAlgebra.LAPACKException(1)
+Stacktrace:
+  [1] chklapackerror_positive(::Int64)
+    @ LinearAlgebra.LAPACK /kfs2/projects/msoc/jmaack/julia-v1.11/usr/share/julia/stdlib/v1.11/LinearAlgebra/src/lapack.jl:44
+  [2] chklapackerror
+    @ /kfs2/projects/msoc/jmaack/julia-v1.11/usr/share/julia/stdlib/v1.11/LinearAlgebra/src/lapack.jl:40 [inlined]
+  [3] gesdd!(job::Char, A::Matrix{Float64})
+    @ LinearAlgebra.LAPACK /kfs2/projects/msoc/jmaack/julia-v1.11/usr/share/julia/stdlib/v1.11/LinearAlgebra/src/lapack.jl:1714
+  [4] _svd!
+    @ /kfs2/projects/msoc/jmaack/julia-v1.11/usr/share/julia/stdlib/v1.11/LinearAlgebra/src/svd.jl:125 [inlined]
+  [5] svd!(A::Matrix{Float64}; full::Bool, alg::LinearAlgebra.DivideAndConquer)
+    @ LinearAlgebra /kfs2/projects/msoc/jmaack/julia-v1.11/usr/share/julia/stdlib/v1.11/LinearAlgebra/src/svd.jl:105
+  [6] svd!
+    @ /kfs2/projects/msoc/jmaack/julia-v1.11/usr/share/julia/stdlib/v1.11/LinearAlgebra/src/svd.jl:100 [inlined]
+  [7] svd(A::Matrix{Float64}; full::Bool, alg::LinearAlgebra.DivideAndConquer)
+    @ LinearAlgebra /kfs2/projects/msoc/jmaack/julia-v1.11/usr/share/julia/stdlib/v1.11/LinearAlgebra/src/svd.jl:179
+  [8] svd
+    @ /kfs2/projects/msoc/jmaack/julia-v1.11/usr/share/julia/stdlib/v1.11/LinearAlgebra/src/svd.jl:178 [inlined]
+  [9] _SVDVector(u::Vector{Float64}, m::Int64, n::Int64, other::Float64)
+    @ ImplicitAD /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/ImplicitAD/src/nonlinear_svd.jl:18
+ [10] ImplicitAD.SVDVector(u::Vector{Float64}, m::Int64, n::Int64, tol::Float64)
+    @ ImplicitAD /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/ImplicitAD/src/nonlinear_svd.jl:46
+ [11] rrule(::typeof(ImplicitAD._implicit_svd), solve::typeof(implicit_burger_step), residual::Function, x::ImplicitAD.SVDVector{Float64}, p::Dict{Symbol, Any}, drdy::typeof(residual_jacobian_y), lsolve::typeof(ImplicitAD.linear_solve))
+    @ ImplicitAD /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/ImplicitAD/src/nonlinear_svd.jl:176
+ [12] track(::typeof(ImplicitAD._implicit_svd), solve::Function, residual::Function, x::ReverseDiff.TrackedArray{Float64, Float64, 1, ImplicitAD.SVDVector{Float64}, Vector{Float64}}, p::Dict{Symbol, Any}, drdy::Function, lsolve::Function)
+    @ ImplicitAD ~/.julia/packages/ReverseDiff/rKZaG/src/macros.jl:338
+ [13] _implicit_svd
+    @ ~/.julia/packages/ReverseDiff/rKZaG/src/macros.jl:334 [inlined]
+ [14] #implicit_svd#16
+    @ /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/ImplicitAD/src/nonlinear_svd.jl:131 [inlined]
+ [15] my_burger_loop(prob::BurgersEquation.BurgersProblem{Int64, Float64, Float64, Float64, Vector{ReverseDiff.TrackedReal{Float64, Float64, ReverseDiff.TrackedArray{Float64, Float64, 1, Vector{Float64}, Vector{Float64}}}}, var"#f#4", var"#fu#5", typeof(BurgersEquation.lax_friedrichs), Nothing}, p::Dict{Symbol, Any}; progress::Bool, mode::Symbol)
+    @ Main /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/burgers_common.jl:112
+ [16] burger_solution(x::ReverseDiff.TrackedArray{Float64, Float64, 1, Vector{Float64}, Vector{Float64}}, p::Dict{Symbol, Any}; save::Bool, progress::Bool, mode::Symbol)
+    @ Main /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/burgers_common.jl:203
+ [17] cost_u(x::ReverseDiff.TrackedArray{Float64, Float64, 1, Vector{Float64}, Vector{Float64}}, p::Dict{Symbol, Any})
+    @ Main /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/burgers_common.jl:324
+ [18] cost(x::ReverseDiff.TrackedArray{Float64, Float64, 1, Vector{Float64}, Vector{Float64}}, p::Dict{Symbol, Any})
+    @ Main /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/burgers_common.jl:349
+ [19] my_objective
+    @ /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/burgers_large_scale.jl:356 [inlined]
+ [20] ReverseDiff.GradientTape(f::var"#my_objective#11"{Dict{Symbol, Any}}, input::Vector{Float64}, cfg::ReverseDiff.GradientConfig{ReverseDiff.TrackedArray{Float64, Float64, 1, Vector{Float64}, Vector{Float64}}})
+    @ ReverseDiff ~/.julia/packages/ReverseDiff/rKZaG/src/api/tape.jl:199
+ [21] gradient!(result::Vector{Float64}, f::Function, input::Vector{Float64}, cfg::ReverseDiff.GradientConfig{ReverseDiff.TrackedArray{Float64, Float64, 1, Vector{Float64}, Vector{Float64}}})
+    @ ReverseDiff ~/.julia/packages/ReverseDiff/rKZaG/src/api/gradients.jl:41
+ [22] (::var"#svd_gradient#9")(g::Vector{Float64}, x::Vector{Float64})
+    @ Main /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/burgers_large_scale.jl:340
+ [23] (::NLSolversBase.var"#fg!#8"{var"#my_objective#11"{Dict{Symbol, Any}}, var"#svd_gradient#9"})(gx::Vector{Float64}, x::Vector{Float64})
+    @ NLSolversBase ~/.julia/packages/NLSolversBase/n7XXO/src/objective_types/abstract.jl:13
+ [24] value_gradient!!(obj::NLSolversBase.OnceDifferentiable{Float64, Vector{Float64}, Vector{Float64}}, x::Vector{Float64})
+    @ NLSolversBase ~/.julia/packages/NLSolversBase/n7XXO/src/interface.jl:82
+ [25] value_gradient!(obj::NLSolversBase.OnceDifferentiable{Float64, Vector{Float64}, Vector{Float64}}, x::Vector{Float64})
+    @ NLSolversBase ~/.julia/packages/NLSolversBase/n7XXO/src/interface.jl:69
+ [26] value_gradient!(obj::Optim.ManifoldObjective{NLSolversBase.OnceDifferentiable{Float64, Vector{Float64}, Vector{Float64}}}, x::Vector{Float64})
+    @ Optim ~/.julia/packages/Optim/7krni/src/Manifolds.jl:50
+ [27] (::LineSearches.var"#ϕdϕ#6"{Optim.ManifoldObjective{NLSolversBase.OnceDifferentiable{Float64, Vector{Float64}, Vector{Float64}}}, Vector{Float64}, Vector{Float64}, Vector{Float64}})(α::Float64)
+    @ LineSearches ~/.julia/packages/LineSearches/b4CwT/src/LineSearches.jl:83
+ [28] bisect!(ϕdϕ::LineSearches.var"#ϕdϕ#6"{Optim.ManifoldObjective{NLSolversBase.OnceDifferentiable{Float64, Vector{Float64}, Vector{Float64}}}, Vector{Float64}, Vector{Float64}, Vector{Float64}}, alphas::Vector{Float64}, values::Vector{Float64}, slopes::Vector{Float64}, ia::Int64, ib::Int64, phi_lim::Float64, display::Int64)
+    @ LineSearches ~/.julia/packages/LineSearches/b4CwT/src/hagerzhang.jl:511
+ [29] (::LineSearches.HagerZhang{Float64, Base.RefValue{Bool}})(ϕ::Function, ϕdϕ::LineSearches.var"#ϕdϕ#6"{Optim.ManifoldObjective{NLSolversBase.OnceDifferentiable{Float64, Vector{Float64}, Vector{Float64}}}, Vector{Float64}, Vector{Float64}, Vector{Float64}}, c::Float64, phi_0::Float64, dphi_0::Float64)
+    @ LineSearches ~/.julia/packages/LineSearches/b4CwT/src/hagerzhang.jl:209
+ [30] HagerZhang
+    @ ~/.julia/packages/LineSearches/b4CwT/src/hagerzhang.jl:103 [inlined]
+ [31] perform_linesearch!(state::Optim.LBFGSState{Vector{Float64}, Vector{Vector{Float64}}, Vector{Vector{Float64}}, Float64, Vector{Float64}}, method::Optim.LBFGS{Nothing, LineSearches.InitialStatic{Float64}, LineSearches.HagerZhang{Float64, Base.RefValue{Bool}}, Returns{Nothing}}, d::Optim.ManifoldObjective{NLSolversBase.OnceDifferentiable{Float64, Vector{Float64}, Vector{Float64}}})
+    @ Optim ~/.julia/packages/Optim/7krni/src/utilities/perform_linesearch.jl:58
+ [32] update_state!(d::NLSolversBase.OnceDifferentiable{Float64, Vector{Float64}, Vector{Float64}}, state::Optim.LBFGSState{Vector{Float64}, Vector{Vector{Float64}}, Vector{Vector{Float64}}, Float64, Vector{Float64}}, method::Optim.LBFGS{Nothing, LineSearches.InitialStatic{Float64}, LineSearches.HagerZhang{Float64, Base.RefValue{Bool}}, Returns{Nothing}})
+    @ Optim ~/.julia/packages/Optim/7krni/src/multivariate/solvers/first_order/l_bfgs.jl:220
+ [33] optimize(d::NLSolversBase.OnceDifferentiable{Float64, Vector{Float64}, Vector{Float64}}, initial_x::Vector{Float64}, method::Optim.LBFGS{Nothing, LineSearches.InitialStatic{Float64}, LineSearches.HagerZhang{Float64, Base.RefValue{Bool}}, Returns{Nothing}}, options::Optim.Options{Float64, Nothing}, state::Optim.LBFGSState{Vector{Float64}, Vector{Vector{Float64}}, Vector{Vector{Float64}}, Float64, Vector{Float64}})
+    @ Optim ~/.julia/packages/Optim/7krni/src/multivariate/optimize/optimize.jl:65
+ [34] optimize
+    @ ~/.julia/packages/Optim/7krni/src/multivariate/optimize/optimize.jl:43 [inlined]
+ [35] optimize(f::Function, g::Function, initial_x::Vector{Float64}, method::Optim.LBFGS{Nothing, LineSearches.InitialStatic{Float64}, LineSearches.HagerZhang{Float64, Base.RefValue{Bool}}, Returns{Nothing}}, options::Optim.Options{Float64, Nothing}; inplace::Bool, autodiff::Symbol)
+    @ Optim ~/.julia/packages/Optim/7krni/src/multivariate/optimize/interface.jl:301
+ [36] optimize
+    @ ~/.julia/packages/Optim/7krni/src/multivariate/optimize/interface.jl:289 [inlined]
+ [37] macro expansion
+    @ ./timing.jl:581 [inlined]
+ [38] macro expansion
+    @ /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/burgers_large_scale.jl:113 [inlined]
+ [39] macro expansion
+    @ ./timing.jl:421 [inlined]
+ [40] run_optimization(case::Symbol, x0::Vector{Float64}, f::Function, fgrad::Function, my_options::Optim.Options{Float64, Nothing})
+    @ Main /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/burgers_large_scale.jl:56
+ [41] main(ARGS::Vector{String})
+    @ Main /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/burgers_large_scale.jl:362
+ [42] top-level scope
+    @ /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/burgers_large_scale.jl:428
+in expression starting at /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/burgers_large_scale.jl:428

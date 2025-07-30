@@ -129,6 +129,9 @@ function main()
             a = 0.825
             b = 7
             x0 = [a, b]
+        elseif my_params[:ic] == ic_smooth
+            # 0.5 + 0.2 * sin(2 * pi * x)
+            x0 = [0.2, 0.5]
         else
             x0 = [0.2, 1.0]
         end
@@ -159,6 +162,10 @@ function main()
                 p = plot(BE.space_grid(N), BE.expand_solution(bp.u0); label="Initial", dpi=300,)
                 plot!(p, BE.space_grid(N), BE.expand_solution(bp.uk); label="Final")
                 png(p, "burgers_$(string(my_params[:ic]))")
+                p = plot(BE.space_grid(N), BE.expand_solution(bp.u0); legend=false, dpi=300,)
+                png(p, "burgers_$(string(my_params[:ic]))_T0")
+                p = plot(BE.space_grid(N), BE.expand_solution(bp.uk); legend=false, dpi=300,)
+                png(p, "burgers_$(string(my_params[:ic]))_T1")
             end
 
         end

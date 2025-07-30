@@ -1,0 +1,4 @@
+  Activating project at `~/ascr_ad/AutoDiffSVDCompression`
+required option --nstart was not provided
+usage: burgers_gradient_error.jl -n NSTART -d NDESCENT [-w NWORKERS]
+                        -s SEED [--no-save] [--silence]

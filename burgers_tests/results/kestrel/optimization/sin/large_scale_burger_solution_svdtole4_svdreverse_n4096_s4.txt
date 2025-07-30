@@ -1,0 +1,8 @@
+GC live:      51.595 MiB
+JIT:           2.613 MiB
+Max. RSS:   1540.758 MiB
+Seconds: 2819.882195839
+Number of Calls: 22
+Converged: true
+Gradient Residual: 7.963158805052335e-5
+x Absolute Change: 0.0008969409779280291

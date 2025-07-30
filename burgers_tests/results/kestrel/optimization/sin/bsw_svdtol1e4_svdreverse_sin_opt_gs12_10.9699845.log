@@ -1,0 +1,52 @@
+tf = 1.0
+Nx = 4096
+tar_func = Main.tf_sin
+seed = 10
+(m, n) = (64, 64)
+my_params = Dict{Symbol, Any}(:Nx => 4096, :flux => :lf, :ic => Main.grid_control, :mode => :svd, :tol => 0.0001, :matdim => (64, 64), :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+Iter     Function value   Gradient norm 
+     0     1.478039e+01     1.206430e-01
+ * time: 0.019784927368164062
+     1     6.810337e+00     5.515280e-02
+ * time: 452.13048005104065
+     2     5.163691e+00     1.711167e-02
+ * time: 868.7161898612976
+     3     5.012924e+00     3.390228e-03
+ * time: 1227.6326930522919
+     4     5.004688e+00     1.139006e-03
+ * time: 1574.675458908081
+     5     5.003991e+00     5.803980e-04
+ * time: 1916.1735939979553
+     6     5.003883e+00     1.751848e-04
+ * time: 2254.8868238925934
+     7     5.003866e+00     5.755056e-05
+ * time: 2593.1004939079285
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+2761.205088 seconds (52.20 G allocations: 1.872 TiB, 8.08% gc time, 0.18% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 5.003866415236395
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     5.003866e+00
+
+ * Found with
+    Algorithm:     L-BFGS
+
+ * Convergence measures
+    |x - x'|               = 7.23e-04 ≰ 1.0e-08
+    |x - x'|/|x'|          = 1.20e-03 ≰ 0.0e+00
+    |f(x) - f(x')|         = 1.64e-05 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 3.27e-06 ≰ 0.0e+00
+    |g(x)|                 = 5.76e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   2593  (vs limit Inf)
+    Iterations:    7
+    f(x) calls:    22
+    ∇f(x) calls:   22
+
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/optimization/sin/large_scale_burger_solution_svdtole4_svdreverse_n4096_s10
+------------------------ Done ------------------------

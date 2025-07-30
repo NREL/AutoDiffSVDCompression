@@ -7,6 +7,7 @@ include("burgers_common.jl")
 import ArgParse
 import CSV
 import DataFrames
+import Distributed
 import LinearAlgebra
 import Random
 
@@ -14,21 +15,6 @@ import ProgressMeter as PM
 import ReverseDiff as RD
 
 using Statistics
-
-function make_case_string(Nx::Integer, target::Symbol)
-    return "$(target)_gs$(Nx)"
-end
-
-function random_initial_point(x0, seed, Nx, umin, umax)
-    rng = Random.MersenneTwister(seed)
-    x0 .= (umax - umin) .* randn(rng, Nx) .+ 0.5 * (umax + umin)
-    return x0
-end
-
-function gradient_descent_step(x0, gradf0, alpha)
-    x0 .-= alpha .* gradf0
-    return x0
-end
 
 function run_gradient_error(
     Nx::Integer,
@@ -80,10 +66,11 @@ function run_gradient_error(
         gres[count] = LinearAlgebra.norm(gerr, 2)
         ginf[count] = LinearAlgebra.norm(gerr, Inf)
         gmag[count] = LinearAlgebra.norm(gtrue, 2)
-        svdmag[count] = Plots.LinearAlgebra.norm(gsvd, 2)
+        svdmag[count] = LinearAlgebra.norm(gsvd, 2)
         dp[count] = LinearAlgebra.dot(gtrue, gsvd)
 
         if count % (ndescent + 1) == 0
+            # @show seed + count
             random_initial_point(x0, seed + count, Nx, umin, umax)
             nrestart += 1
             # @show ngrad, ndescent
@@ -106,6 +93,108 @@ function run_gradient_error(
     if progress
         PM.finish!(pm)
     end
+
+    df = DataFrames.DataFrame(
+        :gmag => gmag,
+        :svdmag => svdmag,
+        :err_l2 => gres,
+        :err_inf => ginf,
+        :dot => dp,
+    )
+
+    return df
+
+end
+
+function run_gradient_error_dist(
+    Nx::Integer,
+    nstart::Integer,
+    ndescent::Integer,
+    fgrad::Function,
+    fgrad_svd::Function;
+    alpha::Real=1e-1,
+    seed::Integer=12345,
+    progress::Bool=true,
+)
+
+    npoints = nstart * (ndescent + 1)
+
+    gres = zeros(npoints)
+    ginf = zeros(npoints)
+    gmag = zeros(npoints)
+    svdmag = zeros(npoints)
+    dp = zeros(npoints)
+
+    pm = PM.Progress(npoints; enabled=progress)
+
+    # Distributed.@distributed for job in 1:nstart
+    #     gradient_error_inner_loop(pm,
+    #         seed, ndescent, Nx, fgrad, fgrad_svd, alpha,
+    #         job)
+    # end
+
+    # println("Launching jobs.")
+
+    # Send jobs to workers
+    size = max(Distributed.nprocs(), 10)
+    result_channel = Distributed.RemoteChannel(
+        () -> Channel{MyResult}(size)
+    )
+
+    rd = Dict{Int,Distributed.Future}()
+    for job in 1:nstart
+        rd[job] = Distributed.@spawnat(
+            :any,
+            gradient_error_inner_loop(result_channel,
+                seed, ndescent, Nx,
+                fgrad, fgrad_svd, alpha, job)
+        )
+    end
+
+    # println("Launched ", length(rd), " jobs.")
+
+    # println("Gathering results.")
+
+    running = true
+    while running
+
+        # println("Checking for results")
+
+        while isready(result_channel)
+            result = take!(result_channel)
+            # MyResult(my_idx, gres, ginf, gmag, svdmag, dp)
+            idx = result.idx
+            # println("Got results for index: ", idx)
+            gres[idx] = result.gres
+            ginf[idx] = result.ginf
+            gmag[idx] = result.gmag
+            svdmag[idx] = result.svdmag
+            dp[idx] = result.dp
+
+            PM.next!(pm)
+        end
+
+        # println("Checking workers")
+
+        for (pid, f) in pairs(rd)
+            if isready(f)
+                # Do not care about return value unless it is an error
+                fetch(f)
+                # println("Job $pid completed.")
+                delete!(rd, pid)
+                break
+            end
+        end
+
+        sleep(1)
+
+        if length(rd) == 0
+            running = false
+        end
+
+    end
+
+    PM.finish!(pm)
 
     df = DataFrames.DataFrame(
         :gmag => gmag,
@@ -221,6 +310,11 @@ function main(ARGS)
         help = "number of gradient descent steps to take from a given initial point"
         arg_type = Int
         required = true
+        "--nworkers", "-w"
+        help = "number of worker processes to use"
+        arg_type = Int
+        default = 0
+        required = false
         "--seed", "-s"
         help = "seed to send to random number generator for optimization initial condition"
         arg_type = Int
@@ -229,6 +323,9 @@ function main(ARGS)
         # help = "function giving the target of function of the optimization"
         # arg_type = String
         # required = true
+        "--no-save"
+        help = "run computation without saving results"
+        action = :store_true
         "--silence"
         help = "silence progress bar"
         action = :store_true
@@ -236,9 +333,11 @@ function main(ARGS)
 
     parsed_args = ArgParse.parse_args(ARGS, s)
 
-    grid_sizes = 4:16
-    # grid_sizes = 11:16
-    targets = [:sin, :cliff, :weierstrass]
+    # grid_sizes = 4:4
+    # grid_sizes = 4:16
+    grid_sizes = 14:14
+    # targets = [:sin, :cliff, :weierstrass]
+    targets = [:cliff]
 
     tf = 1.0
     cfl = 0.85
@@ -256,6 +355,11 @@ function main(ARGS)
         "error",
     )
     mkpath(my_dir)
+
+    if (parsed_args["nworkers"] > 1)
+        Distributed.addprocs(parsed_args["nworkers"])
+        Distributed.@everywhere include("burgers_common.jl")
+    end
 
     for k in grid_sizes
 
@@ -329,11 +433,19 @@ function main(ARGS)
                 progress=!parsed_args["silence"]
             )
 
+            # df = run_gradient_error_dist(
+            #     Nx, nstart, ndescent, my_gradient, svd_gradient;
+            #     alpha=1e-2, seed=seed,
+            #     progress=!parsed_args["silence"]
+            # )
+
             @show maximum(df[:, :err_l2])
             @show mean(df[:, :err_l2])
             @show minimum(df[:, :err_l2])
 
-            CSV.write(fname, df)
+            if !parsed_args["no-save"]
+                CSV.write(fname, df)
+            end
 
             println("-------- Done --------")
 
@@ -345,7 +457,67 @@ function main(ARGS)
 
 end
 
+function test_mt()
+
+    seed = 1
+    nstart = 2
+    ndescent = 5
+
+    tf = 1.0
+    cfl = 0.85
+    Nx = 2^8
+    (m, n) = svd_dimensions(Nx)
+
+    my_params = Dict(
+        :Nx => Nx,
+        :cfl => cfl,
+        :tf => tf,
+        :flux => :lf,
+        :scale => 1e2,
+        :ic => grid_control,
+        :target => tf_sin,
+        :mode => :implicit,
+    )
+    my_params[:target] = target_condition(Float64[], my_params)
+
+    svd_params = copy(my_params)
+    svd_params[:mode] = :svd
+    svd_params[:tol] = 1e-5
+    svd_params[:matdim] = (m, n)
+
+    my_objective(x) = cost(x, my_params)
+    function my_gradient(g, x)
+        RD.gradient!(g, my_objective, x)
+        return
+    end
+
+    svd_objective(x) = cost(x, svd_params)
+    function svd_gradient(g, x)
+        RD.gradient!(g, svd_objective, x)
+        return
+    end
+
+    serial_df = run_gradient_error(
+        Nx, nstart, ndescent, my_gradient, svd_gradient;
+        alpha=1e-2, seed=seed,
+        progress=true,
+    )
+
+    Distributed.addprocs(2)
+    Distributed.@everywhere(include("burgers_common.jl"))
+
+    multi_df = run_gradient_error_dist(
+        Nx, nstart, ndescent, my_gradient, svd_gradient;
+        alpha=1e-2, seed=seed,
+        progress=true
+    )
+
+    return (serial_df, multi_df)
+
+end
+
 # if PROGRAM_FILE == @__FILE__
 #     main(ARGS)
 # end
 main(ARGS)
+# @show test_mt()
