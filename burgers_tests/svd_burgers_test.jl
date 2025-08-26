@@ -35,7 +35,7 @@ end
 function ic_weierstrass(x, a, b; N=5)
     vmax = 0.9
     vmin = 0.1
-    vmid = 0.5 * (vmax + vmin)
+    # vmid = 0.5 * (vmax + vmin)
 
     val = 0.0
     wbd = 0.0
@@ -98,7 +98,8 @@ end
 
 function main()
 
-    for ic in [ic_cliff, ic_hat, ic_smooth, ic_weierstrass]
+    # for ic in [ic_cliff, ic_hat, ic_smooth, ic_weierstrass]
+    for ic in [ic_weierstrass]
 
         println("######## Initial Condition: $(ic) ########")
 
@@ -107,7 +108,7 @@ function main()
         p1 = plot(yscale=:log10, yticks=[10.0^k for k in -20:1:4], dpi=300, xlabel="Index", ylabel="Singular Value")
         q1 = plot(yscale=:log10, yticks=[10.0^k for k in -20:1:4], xlim=(0, 40), dpi=300, xlabel="Index", ylabel="Singular Value")
 
-        kmax = 14
+        kmax = 18
         kmin = 4
         Nmax = 2^kmax
 

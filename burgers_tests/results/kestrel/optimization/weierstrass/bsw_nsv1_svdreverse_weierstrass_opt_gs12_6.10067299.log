@@ -1,0 +1,65 @@
+tf = 1.0
+Nx = 4096
+tar_func = Main.tf_weierstrass
+seed = 6
+(m, n) = (64, 64)
+my_params = Dict{Symbol, Any}(:Nx => 4096, :flux => :lf, :ic => Main.grid_control, :mode => :svd, :nsv => 1, :matdim => (64, 64), :cfl => 0.85, :scale => 100.0, :target => Main.tf_weierstrass, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+Iter     Function value   Gradient norm 
+     0     6.685919e+00     1.109763e-01
+ * time: 0.019655942916870117
+     1     1.901898e+00     4.259733e-02
+ * time: 393.21616101264954
+     2     1.500278e+00     1.626214e-02
+ * time: 618.1222789287567
+     3     1.500279e+00     1.626183e-02
+ * time: 7480.890337944031
+     4     1.500281e+00     1.626161e-02
+ * time: 15263.289645910263
+     5     1.500282e+00     1.626139e-02
+ * time: 23043.85328888893
+     6     1.500284e+00     1.626117e-02
+ * time: 30874.163093090057
+     7     1.500285e+00     1.626096e-02
+ * time: 38241.8962700367
+     8     1.500287e+00     1.626075e-02
+ * time: 46011.30761599541
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+Precompiling Plots...
+    Plots Being precompiled by another machine (hostname: x1000c6s7b0n1, pid: 2541845, pidfile: /home/jmaack/.julia/compiled/v1.11/Plots/ld3vC_saelP.ji.pidfile)
+  30415.7 ms  ✓ Plots
+    UnitfulExt Being precompiled by another machine (hostname: x1008c4s1b0n1, pid: 562174, pidfile: /home/jmaack/.julia/compiled/v1.11/UnitfulExt/4ishe_saelP.ji.pidfile)
+  10221.9 ms  ✓ Plots → UnitfulExt
+  2 dependencies successfully precompiled in 42 seconds. 178 already precompiled.
+Precompiling FiniteDiffStaticArraysExt...
+    ConstructionBaseStaticArraysExt Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/ConstructionBaseStaticArraysExt/MmdaU_saelP.ji.pidfile)
+   1094.3 ms  ✓ ConstructionBase → ConstructionBaseStaticArraysExt
+   1699.1 ms  ✓ FiniteDiff → FiniteDiffStaticArraysExt
+  2 dependencies successfully precompiled in 3 seconds. 20 already precompiled.
+46191.023077 seconds (850.21 G allocations: 28.522 TiB, 8.28% gc time, 0.01% compilation time)
+Optim.converged(res) = false
+Optim.minimum(res) = 1.5002867033144889
+res =  * Status: failure (exceeded time limit of 43200.0)
+
+ * Candidate solution
+    Final objective value:     1.500287e+00
+
+ * Found with
+    Algorithm:     L-BFGS
+
+ * Convergence measures
+    |x - x'|               = 7.50e-07 ≰ 1.0e-08
+    |x - x'|/|x'|          = 1.27e-06 ≰ 0.0e+00
+    |f(x) - f(x')|         = 1.50e-06 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.00e-06 ≰ 0.0e+00
+    |g(x)|                 = 1.63e-02 ≰ 1.0e-04
+
+ * Work counters
+    Seconds run:   46014  (vs limit 43200)
+    Iterations:    8
+    f(x) calls:    399
+    ∇f(x) calls:   399
+
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/optimization/weierstrass/large_scale_burger_solution_nsv1_svdreverse_n4096_s6
+------------------------ Done ------------------------

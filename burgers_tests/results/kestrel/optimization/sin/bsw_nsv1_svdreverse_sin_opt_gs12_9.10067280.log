@@ -1,0 +1,60 @@
+tf = 1.0
+Nx = 4096
+tar_func = Main.tf_sin
+seed = 9
+(m, n) = (64, 64)
+my_params = Dict{Symbol, Any}(:Nx => 4096, :flux => :lf, :ic => Main.grid_control, :mode => :svd, :nsv => 1, :matdim => (64, 64), :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+Iter     Function value   Gradient norm 
+     0     1.540901e+01     1.320336e-01
+ * time: 0.019516944885253906
+     1     6.905601e+00     5.278860e-02
+ * time: 451.5487058162689
+     2     5.123700e+00     7.128042e-03
+ * time: 894.2750458717346
+     3     5.034149e+00     1.760470e-03
+ * time: 1249.0421268939972
+     4     5.032617e+00     6.590835e-04
+ * time: 1483.1949980258942
+     5     5.032622e+00     6.579282e-04
+ * time: 8487.868768930435
+     6     5.032627e+00     6.488421e-04
+ * time: 15256.442018985748
+     7     5.032632e+00     6.392851e-04
+ * time: 22252.762895822525
+     8     5.032637e+00     6.293120e-04
+ * time: 29143.852560043335
+     9     5.032642e+00     6.196042e-04
+ * time: 36045.112385988235
+    10     5.032647e+00     6.103909e-04
+ * time: 42809.269150972366
+    11     5.032652e+00     6.016058e-04
+ * time: 50094.28607583046
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+50260.315476 seconds (939.83 G allocations: 31.528 TiB, 8.06% gc time, 0.01% compilation time)
+Optim.converged(res) = false
+Optim.minimum(res) = 5.032652407774988
+res =  * Status: failure (exceeded time limit of 43200.0)
+
+ * Candidate solution
+    Final objective value:     5.032652e+00
+
+ * Found with
+    Algorithm:     L-BFGS
+
+ * Convergence measures
+    |x - x'|               = 4.33e-05 ≰ 1.0e-08
+    |x - x'|/|x'|          = 7.08e-05 ≰ 0.0e+00
+    |f(x) - f(x')|         = 5.03e-06 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.00e-06 ≰ 0.0e+00
+    |g(x)|                 = 6.02e-04 ≰ 1.0e-04
+
+ * Work counters
+    Seconds run:   50094  (vs limit 43200)
+    Iterations:    11
+    f(x) calls:    425
+    ∇f(x) calls:   425
+
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/optimization/sin/large_scale_burger_solution_nsv1_svdreverse_n4096_s9
+------------------------ Done ------------------------

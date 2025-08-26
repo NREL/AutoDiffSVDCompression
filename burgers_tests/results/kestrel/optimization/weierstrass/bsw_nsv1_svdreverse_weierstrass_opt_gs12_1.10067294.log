@@ -1,0 +1,68 @@
+tf = 1.0
+Nx = 4096
+tar_func = Main.tf_weierstrass
+seed = 1
+(m, n) = (64, 64)
+my_params = Dict{Symbol, Any}(:Nx => 4096, :flux => :lf, :ic => Main.grid_control, :mode => :svd, :nsv => 1, :matdim => (64, 64), :cfl => 0.85, :scale => 100.0, :target => Main.tf_weierstrass, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+Iter     Function value   Gradient norm 
+     0     6.453944e+00     9.327563e-02
+ * time: 0.01971578598022461
+     1     1.858864e+00     3.971231e-02
+ * time: 383.7592978477478
+     2     1.578402e+00     1.336013e-02
+ * time: 615.0274620056152
+     3     1.578403e+00     1.257618e-02
+ * time: 7085.03685092926
+     4     1.578405e+00     1.257586e-02
+ * time: 14238.192164897919
+     5     1.578407e+00     1.257562e-02
+ * time: 21712.490319013596
+     6     1.578408e+00     1.257534e-02
+ * time: 29171.385977983475
+     7     1.578410e+00     1.257511e-02
+ * time: 36951.90697979927
+     8     1.578411e+00     1.257484e-02
+ * time: 44400.846970796585
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+Precompiling SpecialFunctionsExt...
+    SpecialFunctionsExt Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/SpecialFunctionsExt/SsZkK_saelP.ji.pidfile)
+  10122.7 ms  ✓ ColorVectorSpace → SpecialFunctionsExt
+  1 dependency successfully precompiled in 10 seconds. 20 already precompiled.
+Precompiling CSV...
+    CSV Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/CSV/HHBkp_saelP.ji.pidfile)
+  10125.2 ms  ✓ CSV
+  1 dependency successfully precompiled in 10 seconds. 29 already precompiled.
+Precompiling ArrayInterfaceReverseDiffExt...
+    AdaptStaticArraysExt Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/AdaptStaticArraysExt/9bCdf_saelP.ji.pidfile)
+    965.8 ms  ✓ Adapt → AdaptStaticArraysExt
+    ArrayInterfaceReverseDiffExt Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/ArrayInterfaceReverseDiffExt/uCTLA_saelP.ji.pidfile)
+  10019.3 ms  ✓ ArrayInterface → ArrayInterfaceReverseDiffExt
+  2 dependencies successfully precompiled in 11 seconds. 39 already precompiled.
+44562.739679 seconds (818.31 G allocations: 27.451 TiB, 8.06% gc time, 0.01% compilation time)
+Optim.converged(res) = false
+Optim.minimum(res) = 1.5784113564429956
+res =  * Status: failure (exceeded time limit of 43200.0)
+
+ * Candidate solution
+    Final objective value:     1.578411e+00
+
+ * Found with
+    Algorithm:     L-BFGS
+
+ * Convergence measures
+    |x - x'|               = 9.86e-07 ≰ 1.0e-08
+    |x - x'|/|x'|          = 1.66e-06 ≰ 0.0e+00
+    |f(x) - f(x')|         = 1.58e-06 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.00e-06 ≰ 0.0e+00
+    |g(x)|                 = 1.26e-02 ≰ 1.0e-04
+
+ * Work counters
+    Seconds run:   44403  (vs limit 43200)
+    Iterations:    8
+    f(x) calls:    382
+    ∇f(x) calls:   382
+
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/optimization/weierstrass/large_scale_burger_solution_nsv1_svdreverse_n4096_s1
+------------------------ Done ------------------------

@@ -1,0 +1,70 @@
+tf = 1.0
+Nx = 4096
+tar_func = Main.tf_sin
+seed = 2
+(m, n) = (64, 64)
+my_params = Dict{Symbol, Any}(:Nx => 4096, :flux => :lf, :ic => Main.grid_control, :mode => :svd, :nsv => 1, :matdim => (64, 64), :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+Iter     Function value   Gradient norm 
+     0     1.518245e+01     1.310288e-01
+ * time: 0.019418954849243164
+     1     6.834055e+00     5.762335e-02
+ * time: 441.66808104515076
+     2     5.125815e+00     7.261370e-03
+ * time: 858.8100719451904
+     3     5.033737e+00     1.603763e-03
+ * time: 1207.0989890098572
+     4     5.032055e+00     5.321970e-04
+ * time: 1438.415601015091
+     5     5.032060e+00     5.312797e-04
+ * time: 8148.424695014954
+     6     5.032065e+00     5.289502e-04
+ * time: 14975.108628034592
+     7     5.032070e+00     5.263080e-04
+ * time: 21464.000685930252
+     8     5.032075e+00     5.236288e-04
+ * time: 28174.835541963577
+     9     5.032080e+00     5.209486e-04
+ * time: 34757.693805933
+    10     5.032085e+00     5.182741e-04
+ * time: 42007.715378046036
+    11     5.032090e+00     5.156110e-04
+ * time: 49246.34139800072
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+Precompiling Plots...
+    Plots Being precompiled by another machine (hostname: x1000c6s7b0n1, pid: 2541845, pidfile: /home/jmaack/.julia/compiled/v1.11/Plots/ld3vC_saelP.ji.pidfile)
+  40408.8 ms  ✓ Plots
+    UnitfulExt Being precompiled by another machine (hostname: x1003c6s0b0n1, pid: 159549, pidfile: /home/jmaack/.julia/compiled/v1.11/UnitfulExt/4ishe_saelP.ji.pidfile)
+  20231.0 ms  ✓ Plots → UnitfulExt
+  2 dependencies successfully precompiled in 62 seconds. 178 already precompiled.
+Precompiling ArrayInterfaceReverseDiffExt...
+    ArrayInterfaceReverseDiffExt Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/ArrayInterfaceReverseDiffExt/uCTLA_saelP.ji.pidfile)
+   1007.6 ms  ✓ ArrayInterface → ArrayInterfaceReverseDiffExt
+  1 dependency successfully precompiled in 1 seconds. 40 already precompiled.
+49411.048083 seconds (934.56 G allocations: 31.351 TiB, 8.07% gc time, 0.01% compilation time)
+Optim.converged(res) = false
+Optim.minimum(res) = 5.032090437891049
+res =  * Status: failure (exceeded time limit of 43200.0)
+
+ * Candidate solution
+    Final objective value:     5.032090e+00
+
+ * Found with
+    Algorithm:     L-BFGS
+
+ * Convergence measures
+    |x - x'|               = 1.03e-05 ≰ 1.0e-08
+    |x - x'|/|x'|          = 1.68e-05 ≰ 0.0e+00
+    |f(x) - f(x')|         = 5.03e-06 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.00e-06 ≰ 0.0e+00
+    |g(x)|                 = 5.16e-04 ≰ 1.0e-04
+
+ * Work counters
+    Seconds run:   49247  (vs limit 43200)
+    Iterations:    11
+    f(x) calls:    423
+    ∇f(x) calls:   423
+
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/optimization/sin/large_scale_burger_solution_nsv1_svdreverse_n4096_s2
+------------------------ Done ------------------------

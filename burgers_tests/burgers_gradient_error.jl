@@ -334,10 +334,10 @@ function main(ARGS)
     parsed_args = ArgParse.parse_args(ARGS, s)
 
     # grid_sizes = 4:4
-    # grid_sizes = 4:16
-    grid_sizes = 14:14
-    # targets = [:sin, :cliff, :weierstrass]
-    targets = [:cliff]
+    grid_sizes = 4:12
+    # grid_sizes = 14:14
+    targets = [:sin, :cliff, :weierstrass]
+    # targets = [:weierstrass]
 
     tf = 1.0
     cfl = 0.85

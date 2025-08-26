@@ -1,0 +1,56 @@
+tf = 1.0
+Nx = 4096
+tar_func = Main.tf_sin
+seed = 5
+(m, n) = (64, 64)
+my_params = Dict{Symbol, Any}(:Nx => 4096, :flux => :lf, :ic => Main.grid_control, :mode => :svd, :nsv => 1, :matdim => (64, 64), :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+Iter     Function value   Gradient norm 
+     0     1.488641e+01     1.361200e-01
+ * time: 0.019700050354003906
+     1     6.766194e+00     5.194139e-02
+ * time: 448.8048779964447
+     2     5.128822e+00     6.918257e-03
+ * time: 877.4992928504944
+     3     5.030757e+00     1.295685e-03
+ * time: 1229.2154309749603
+     4     5.030762e+00     1.290174e-03
+ * time: 8408.913365840912
+     5     5.030767e+00     1.284799e-03
+ * time: 15873.694171905518
+     6     5.030772e+00     1.274367e-03
+ * time: 23468.30313897133
+     7     5.030777e+00     1.267163e-03
+ * time: 30918.55820584297
+     8     5.030782e+00     1.258273e-03
+ * time: 38012.83032488823
+     9     5.030787e+00     1.251001e-03
+ * time: 45514.66198897362
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+45693.053576 seconds (846.29 G allocations: 28.390 TiB, 8.13% gc time, 0.01% compilation time)
+Optim.converged(res) = false
+Optim.minimum(res) = 5.030786800769435
+res =  * Status: failure (exceeded time limit of 43200.0)
+
+ * Candidate solution
+    Final objective value:     5.030787e+00
+
+ * Found with
+    Algorithm:     L-BFGS
+
+ * Convergence measures
+    |x - x'|               = 2.64e-05 ≰ 1.0e-08
+    |x - x'|/|x'|          = 4.32e-05 ≰ 0.0e+00
+    |f(x) - f(x')|         = 5.03e-06 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.00e-06 ≰ 0.0e+00
+    |g(x)|                 = 1.25e-03 ≰ 1.0e-04
+
+ * Work counters
+    Seconds run:   45515  (vs limit 43200)
+    Iterations:    9
+    f(x) calls:    382
+    ∇f(x) calls:   382
+
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/optimization/sin/large_scale_burger_solution_nsv1_svdreverse_n4096_s5
+------------------------ Done ------------------------

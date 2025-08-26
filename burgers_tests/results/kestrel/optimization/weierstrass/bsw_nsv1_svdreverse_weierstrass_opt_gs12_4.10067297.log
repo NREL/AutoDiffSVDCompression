@@ -1,0 +1,60 @@
+tf = 1.0
+Nx = 4096
+tar_func = Main.tf_weierstrass
+seed = 4
+(m, n) = (64, 64)
+my_params = Dict{Symbol, Any}(:Nx => 4096, :flux => :lf, :ic => Main.grid_control, :mode => :svd, :nsv => 1, :matdim => (64, 64), :cfl => 0.85, :scale => 100.0, :target => Main.tf_weierstrass, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+Iter     Function value   Gradient norm 
+     0     6.997417e+00     1.252707e-01
+ * time: 0.01958298683166504
+     1     1.914091e+00     4.180312e-02
+ * time: 390.4943268299103
+     2     1.498737e+00     1.724892e-02
+ * time: 616.6596868038177
+     3     1.498738e+00     1.724872e-02
+ * time: 7572.2010979652405
+     4     1.498740e+00     1.724851e-02
+ * time: 14650.557141780853
+     5     1.498741e+00     1.724825e-02
+ * time: 21631.0461769104
+     6     1.498742e+00     1.724814e-02
+ * time: 29264.635207891464
+     7     1.498742e+00     1.724814e-02
+ * time: 39005.83716082573
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+Precompiling ArrayInterfaceChainRulesCoreExt...
+    ArrayInterfaceChainRulesCoreExt Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/ArrayInterfaceChainRulesCoreExt/EjHsn_saelP.ji.pidfile)
+   1180.5 ms  ✓ ArrayInterface → ArrayInterfaceChainRulesCoreExt
+  1 dependency successfully precompiled in 1 seconds. 11 already precompiled.
+Precompiling ArrayInterfaceReverseDiffExt...
+    ArrayInterfaceReverseDiffExt Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/ArrayInterfaceReverseDiffExt/uCTLA_saelP.ji.pidfile)
+  10029.9 ms  ✓ ArrayInterface → ArrayInterfaceReverseDiffExt
+  1 dependency successfully precompiled in 10 seconds. 40 already precompiled.
+39185.768372 seconds (752.68 G allocations: 25.250 TiB, 7.90% gc time, 0.01% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 1.4987421401959868
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     1.498742e+00
+
+ * Found with
+    Algorithm:     L-BFGS
+
+ * Convergence measures
+    |x - x'|               = 3.33e-16 ≤ 1.0e-08
+    |x - x'|/|x'|          = 5.64e-16 ≰ 0.0e+00
+    |f(x) - f(x')|         = 6.66e-16 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 4.44e-16 ≰ 0.0e+00
+    |g(x)|                 = 1.72e-02 ≰ 1.0e-04
+
+ * Work counters
+    Seconds run:   39006  (vs limit 43200)
+    Iterations:    7
+    f(x) calls:    353
+    ∇f(x) calls:   353
+
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/optimization/weierstrass/large_scale_burger_solution_nsv1_svdreverse_n4096_s4
+------------------------ Done ------------------------

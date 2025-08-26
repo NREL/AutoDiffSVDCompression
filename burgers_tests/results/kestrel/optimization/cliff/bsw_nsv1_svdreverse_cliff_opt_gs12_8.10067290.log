@@ -1,0 +1,56 @@
+tf = 1.0
+Nx = 4096
+tar_func = Main.tf_cliff
+seed = 8
+(m, n) = (64, 64)
+my_params = Dict{Symbol, Any}(:Nx => 4096, :flux => :lf, :ic => Main.grid_control, :mode => :svd, :nsv => 1, :matdim => (64, 64), :cfl => 0.85, :scale => 100.0, :target => Main.tf_cliff, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+Iter     Function value   Gradient norm 
+     0     6.483112e+00     1.099546e-01
+ * time: 0.019865989685058594
+     1     1.479816e+00     3.289431e-02
+ * time: 396.49885392189026
+     2     1.300875e+00     3.515503e-02
+ * time: 622.2828769683838
+     3     1.139027e+00     6.111470e-03
+ * time: 961.006138086319
+     4     1.139028e+00     6.111382e-03
+ * time: 7702.226702928543
+     5     1.139029e+00     6.111268e-03
+ * time: 14926.244010925293
+     6     1.139030e+00     6.111130e-03
+ * time: 22506.29102706909
+     7     1.139031e+00     6.110998e-03
+ * time: 29692.230469942093
+     8     1.139032e+00     6.110868e-03
+ * time: 37185.246885061264
+     9     1.139034e+00     6.110739e-03
+ * time: 44695.680397987366
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+44862.687899 seconds (827.46 G allocations: 27.758 TiB, 8.35% gc time, 0.01% compilation time)
+Optim.converged(res) = false
+Optim.minimum(res) = 1.1390335173531232
+res =  * Status: failure (exceeded time limit of 43200.0)
+
+ * Candidate solution
+    Final objective value:     1.139034e+00
+
+ * Found with
+    Algorithm:     L-BFGS
+
+ * Convergence measures
+    |x - x'|               = 4.82e-07 ≰ 1.0e-08
+    |x - x'|/|x'|          = 8.19e-07 ≰ 0.0e+00
+    |f(x) - f(x')|         = 1.14e-06 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.00e-06 ≰ 0.0e+00
+    |g(x)|                 = 6.11e-03 ≰ 1.0e-04
+
+ * Work counters
+    Seconds run:   44696  (vs limit 43200)
+    Iterations:    9
+    f(x) calls:    390
+    ∇f(x) calls:   390
+
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/optimization/cliff/large_scale_burger_solution_nsv1_svdreverse_n4096_s8
+------------------------ Done ------------------------

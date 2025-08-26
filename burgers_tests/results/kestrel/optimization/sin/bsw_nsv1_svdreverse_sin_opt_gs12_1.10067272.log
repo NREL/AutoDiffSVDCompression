@@ -1,0 +1,64 @@
+tf = 1.0
+Nx = 4096
+tar_func = Main.tf_sin
+seed = 1
+(m, n) = (64, 64)
+my_params = Dict{Symbol, Any}(:Nx => 4096, :flux => :lf, :ic => Main.grid_control, :mode => :svd, :nsv => 1, :matdim => (64, 64), :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+Iter     Function value   Gradient norm 
+     0     1.495196e+01     1.324081e-01
+ * time: 0.01980304718017578
+     1     6.815429e+00     4.921986e-02
+ * time: 443.00603795051575
+     2     5.130391e+00     7.298320e-03
+ * time: 880.4069430828094
+     3     5.032084e+00     1.380164e-03
+ * time: 1232.9036090373993
+     4     5.032089e+00     5.453638e-04
+ * time: 7641.041601896286
+     5     5.032095e+00     5.443799e-04
+ * time: 14505.835339069366
+     6     5.032100e+00     5.417756e-04
+ * time: 21492.240617990494
+     7     5.032105e+00     5.388640e-04
+ * time: 28422.61883187294
+     8     5.032110e+00     5.358829e-04
+ * time: 35300.46820497513
+     9     5.032115e+00     5.328829e-04
+ * time: 42187.48016500473
+    10     5.032120e+00     5.298968e-04
+ * time: 49675.62893486023
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+Precompiling Plots...
+    Plots Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/Plots/ld3vC_saelP.ji.pidfile)
+  60452.9 ms  ✓ Plots
+    UnitfulExt Being precompiled by another machine (hostname: x1003c6s0b0n1, pid: 159549, pidfile: /home/jmaack/.julia/compiled/v1.11/UnitfulExt/4ishe_saelP.ji.pidfile)
+  30294.9 ms  ✓ Plots → UnitfulExt
+  2 dependencies successfully precompiled in 95 seconds. 178 already precompiled.
+49835.188810 seconds (935.05 G allocations: 31.368 TiB, 7.75% gc time, 0.01% compilation time)
+Optim.converged(res) = false
+Optim.minimum(res) = 5.032119688412458
+res =  * Status: failure (exceeded time limit of 43200.0)
+
+ * Candidate solution
+    Final objective value:     5.032120e+00
+
+ * Found with
+    Algorithm:     L-BFGS
+
+ * Convergence measures
+    |x - x'|               = 1.46e-05 ≰ 1.0e-08
+    |x - x'|/|x'|          = 2.38e-05 ≰ 0.0e+00
+    |f(x) - f(x')|         = 5.03e-06 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.00e-06 ≰ 0.0e+00
+    |g(x)|                 = 5.30e-04 ≰ 1.0e-04
+
+ * Work counters
+    Seconds run:   49676  (vs limit 43200)
+    Iterations:    10
+    f(x) calls:    423
+    ∇f(x) calls:   423
+
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/optimization/sin/large_scale_burger_solution_nsv1_svdreverse_n4096_s1
+------------------------ Done ------------------------

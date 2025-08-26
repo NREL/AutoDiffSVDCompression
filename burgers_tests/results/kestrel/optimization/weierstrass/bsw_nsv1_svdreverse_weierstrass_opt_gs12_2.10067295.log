@@ -1,0 +1,64 @@
+tf = 1.0
+Nx = 4096
+tar_func = Main.tf_weierstrass
+seed = 2
+(m, n) = (64, 64)
+my_params = Dict{Symbol, Any}(:Nx => 4096, :flux => :lf, :ic => Main.grid_control, :mode => :svd, :nsv => 1, :matdim => (64, 64), :cfl => 0.85, :scale => 100.0, :target => Main.tf_weierstrass, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+Iter     Function value   Gradient norm 
+     0     6.684964e+00     1.050963e-01
+ * time: 0.01956796646118164
+     1     1.856167e+00     4.068731e-02
+ * time: 381.396959066391
+     2     1.578094e+00     1.513514e-02
+ * time: 607.3123631477356
+     3     1.578096e+00     1.024390e-02
+ * time: 6792.052572011948
+     4     1.578097e+00     1.024366e-02
+ * time: 14010.291772127151
+     5     1.578099e+00     1.024349e-02
+ * time: 21244.814737081528
+     6     1.578100e+00     1.024333e-02
+ * time: 28591.909100055695
+     7     1.578102e+00     1.024317e-02
+ * time: 36118.46272611618
+     8     1.578104e+00     1.024302e-02
+ * time: 43848.41015505791
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+Precompiling Plots...
+    Plots Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/Plots/ld3vC_saelP.ji.pidfile)
+  60454.7 ms  ✓ Plots
+   3890.8 ms  ✓ Plots → UnitfulExt
+  2 dependencies successfully precompiled in 67 seconds. 178 already precompiled.
+Precompiling Optim...
+    LineSearches Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/LineSearches/htmYa_saelP.ji.pidfile)
+  11018.8 ms  ✓ LineSearches
+   2084.2 ms  ✓ Optim
+  2 dependencies successfully precompiled in 13 seconds. 67 already precompiled.
+44010.723520 seconds (835.90 G allocations: 28.041 TiB, 8.21% gc time, 0.01% compilation time)
+Optim.converged(res) = false
+Optim.minimum(res) = 1.5781036403534712
+res =  * Status: failure (exceeded time limit of 43200.0)
+
+ * Candidate solution
+    Final objective value:     1.578104e+00
+
+ * Found with
+    Algorithm:     L-BFGS
+
+ * Convergence measures
+    |x - x'|               = 5.31e-07 ≰ 1.0e-08
+    |x - x'|/|x'|          = 9.01e-07 ≰ 0.0e+00
+    |f(x) - f(x')|         = 1.58e-06 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.00e-06 ≰ 0.0e+00
+    |g(x)|                 = 1.02e-02 ≰ 1.0e-04
+
+ * Work counters
+    Seconds run:   43849  (vs limit 43200)
+    Iterations:    8
+    f(x) calls:    393
+    ∇f(x) calls:   393
+
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/optimization/weierstrass/large_scale_burger_solution_nsv1_svdreverse_n4096_s2
+------------------------ Done ------------------------

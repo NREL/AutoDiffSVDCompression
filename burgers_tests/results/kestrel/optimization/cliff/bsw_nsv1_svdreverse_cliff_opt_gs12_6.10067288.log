@@ -1,0 +1,68 @@
+tf = 1.0
+Nx = 4096
+tar_func = Main.tf_cliff
+seed = 6
+(m, n) = (64, 64)
+my_params = Dict{Symbol, Any}(:Nx => 4096, :flux => :lf, :ic => Main.grid_control, :mode => :svd, :nsv => 1, :matdim => (64, 64), :cfl => 0.85, :scale => 100.0, :target => Main.tf_cliff, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+Iter     Function value   Gradient norm 
+     0     6.866181e+00     1.087988e-01
+ * time: 0.019809961318969727
+     1     1.482689e+00     3.175318e-02
+ * time: 401.7756381034851
+     2     1.325622e+00     2.989402e-02
+ * time: 626.7394030094147
+     3     1.173860e+00     4.034286e-03
+ * time: 846.9424669742584
+     4     1.173861e+00     4.033718e-03
+ * time: 7578.852683067322
+     5     1.173862e+00     4.033415e-03
+ * time: 14537.340406894684
+     6     1.173863e+00     4.033185e-03
+ * time: 21888.230686903
+     7     1.173864e+00     4.032986e-03
+ * time: 29223.507996082306
+     8     1.173866e+00     4.032792e-03
+ * time: 36200.9399330616
+     9     1.173867e+00     4.032598e-03
+ * time: 43442.89641904831
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+Precompiling Plots...
+    Plots Being precompiled by another machine (hostname: x1000c6s7b0n1, pid: 2541845, pidfile: /home/jmaack/.julia/compiled/v1.11/Plots/ld3vC_saelP.ji.pidfile)
+  30426.0 ms  ✓ Plots
+    UnitfulExt Being precompiled by another machine (hostname: x1003c6s0b0n1, pid: 159549, pidfile: /home/jmaack/.julia/compiled/v1.11/UnitfulExt/4ishe_saelP.ji.pidfile)
+  20250.3 ms  ✓ Plots → UnitfulExt
+  2 dependencies successfully precompiled in 52 seconds. 178 already precompiled.
+Precompiling FiniteDiffStaticArraysExt...
+    ConstructionBaseStaticArraysExt Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/ConstructionBaseStaticArraysExt/MmdaU_saelP.ji.pidfile)
+    FiniteDiffStaticArraysExt Being precompiled by another machine (hostname: x1003c6s1b0n1, pid: 417678, pidfile: /home/jmaack/.julia/compiled/v1.11/FiniteDiffStaticArraysExt/hU6OA_saelP.ji.pidfile)
+    969.8 ms  ✓ ConstructionBase → ConstructionBaseStaticArraysExt
+  10040.4 ms  ✓ FiniteDiff → FiniteDiffStaticArraysExt
+  2 dependencies successfully precompiled in 11 seconds. 20 already precompiled.
+43620.896438 seconds (824.45 G allocations: 27.657 TiB, 8.29% gc time, 0.01% compilation time)
+Optim.converged(res) = false
+Optim.minimum(res) = 1.1738668464462876
+res =  * Status: failure (exceeded time limit of 43200.0)
+
+ * Candidate solution
+    Final objective value:     1.173867e+00
+
+ * Found with
+    Algorithm:     L-BFGS
+
+ * Convergence measures
+    |x - x'|               = 6.78e-07 ≰ 1.0e-08
+    |x - x'|/|x'|          = 1.15e-06 ≰ 0.0e+00
+    |f(x) - f(x')|         = 1.17e-06 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.00e-06 ≰ 0.0e+00
+    |g(x)|                 = 4.03e-03 ≰ 1.0e-04
+
+ * Work counters
+    Seconds run:   43443  (vs limit 43200)
+    Iterations:    9
+    f(x) calls:    388
+    ∇f(x) calls:   388
+
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/optimization/cliff/large_scale_burger_solution_nsv1_svdreverse_n4096_s6
+------------------------ Done ------------------------

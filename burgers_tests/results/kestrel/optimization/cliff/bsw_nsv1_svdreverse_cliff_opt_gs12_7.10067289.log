@@ -1,0 +1,307 @@
+tf = 1.0
+Nx = 4096
+tar_func = Main.tf_cliff
+seed = 7
+(m, n) = (64, 64)
+my_params = Dict{Symbol, Any}(:Nx => 4096, :flux => :lf, :ic => Main.grid_control, :mode => :svd, :nsv => 1, :matdim => (64, 64), :cfl => 0.85, :scale => 100.0, :target => Main.tf_cliff, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+Iter     Function value   Gradient norm 
+     0     6.649505e+00     1.060529e-01
+ * time: 0.01941394805908203
+     1     1.478327e+00     4.235104e-02
+ * time: 415.97662806510925
+     2     1.348485e+00     3.702040e-02
+ * time: 656.8039619922638
+     3     1.097817e+00     1.112575e-02
+ * time: 1008.9280331134796
+     4     1.097818e+00     1.112549e-02
+ * time: 8312.044317007065
+     5     1.097819e+00     1.112530e-02
+ * time: 16328.85941696167
+     6     1.097820e+00     1.112513e-02
+ * time: 24086.02661895752
+     7     1.097821e+00     1.112495e-02
+ * time: 31925.52181506157
+     8     1.097822e+00     1.112478e-02
+ * time: 39771.17629098892
+     9     1.097823e+00     1.112462e-02
+ * time: 47561.85088300705
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+Precompiling ReverseDiff...
+    755.9 ms  ✓ StaticArraysCore
+    783.7 ms  ✓ DocStringExtensions
+    945.9 ms  ✓ FunctionWrappers
+    781.1 ms  ✓ NaNMath
+    759.8 ms  ✓ Compat
+    764.3 ms  ✓ Preferences
+    864.2 ms  ✓ Statistics
+    340.9 ms  ✓ DiffResults
+   1218.0 ms  ✓ IrrationalConstants
+    548.3 ms  ✓ Compat → CompatLinearAlgebraExt
+    453.3 ms  ✓ PrecompileTools
+    480.8 ms  ✓ JLLWrappers
+   1617.4 ms  ✓ MacroTools
+    500.9 ms  ✓ LogExpFunctions
+    580.6 ms  ✓ OpenSpecFun_jll
+    401.9 ms  ✓ CommonSubexpressions
+    970.0 ms  ✓ ChainRulesCore
+    928.3 ms  ✓ LogExpFunctions → LogExpFunctionsChainRulesCoreExt
+   1827.6 ms  ✓ SpecialFunctions
+    485.8 ms  ✓ DiffRules
+   1168.8 ms  ✓ SpecialFunctions → SpecialFunctionsChainRulesCoreExt
+   4467.3 ms  ✓ StaticArrays
+    504.4 ms  ✓ StaticArrays → StaticArraysStatisticsExt
+    542.3 ms  ✓ StaticArrays → StaticArraysChainRulesCoreExt
+   2373.3 ms  ✓ ForwardDiff
+    641.5 ms  ✓ ForwardDiff → ForwardDiffStaticArraysExt
+   9538.0 ms  ✓ ReverseDiff
+  27 dependencies successfully precompiled in 18 seconds. 7 already precompiled.
+Precompiling ImplicitAD...
+    501.7 ms  ✓ ADTypes
+    358.3 ms  ✓ ADTypes → ADTypesChainRulesCoreExt
+    902.5 ms  ✓ DifferentiationInterface
+    486.1 ms  ✓ DifferentiationInterface → DifferentiationInterfaceChainRulesCoreExt
+    591.9 ms  ✓ DifferentiationInterface → DifferentiationInterfaceStaticArraysExt
+    685.0 ms  ✓ DifferentiationInterface → DifferentiationInterfaceForwardDiffExt
+   2452.2 ms  ✓ DifferentiationInterface → DifferentiationInterfaceReverseDiffExt
+   2646.1 ms  ✓ ImplicitAD
+  8 dependencies successfully precompiled in 7 seconds. 34 already precompiled.
+Precompiling BurgersEquation...
+    653.4 ms  ✓ ProgressMeter
+    425.6 ms  ✓ BurgersEquation
+  2 dependencies successfully precompiled in 2 seconds. 4 already precompiled.
+Precompiling Plots...
+   7772.6 ms  ✓ LaTeXStrings
+   7768.6 ms  ✓ TensorCore
+   7765.5 ms  ✓ StatsAPI
+   7761.9 ms  ✓ Contour
+   7757.0 ms  ✓ Format
+   7751.2 ms  ✓ Measures
+   7697.7 ms  ✓ Grisu
+   7693.7 ms  ✓ OrderedCollections
+   7690.0 ms  ✓ Requires
+   7477.6 ms  ✓ StableRNGs
+   7453.2 ms  ✓ Unzip
+   7449.4 ms  ✓ Reexport
+   7404.0 ms  ✓ URIs
+   7399.7 ms  ✓ SimpleBufferStream
+   7346.6 ms  ✓ PtrArrays
+   7316.9 ms  ✓ TranscodingStreams
+    522.0 ms  ✓ DataAPI
+    566.9 ms  ✓ DelimitedFiles
+    733.1 ms  ✓ BitFlags
+    827.0 ms  ✓ Showoff
+    826.9 ms  ✓ Scratch
+    894.4 ms  ✓ ExceptionUnwrapping
+    911.8 ms  ✓ LoggingExtras
+    948.2 ms  ✓ OpenSSL_jll
+    510.8 ms  ✓ LLVMOpenMP_jll
+    542.3 ms  ✓ Bzip2_jll
+   1106.8 ms  ✓ ConcurrentUtilities
+    499.4 ms  ✓ Xorg_libICE_jll
+   1343.9 ms  ✓ MbedTLS
+    522.4 ms  ✓ libpng_jll
+    552.2 ms  ✓ Xorg_libXau_jll
+    511.5 ms  ✓ libfdk_aac_jll
+    520.6 ms  ✓ LAME_jll
+    494.2 ms  ✓ fzf_jll
+    516.8 ms  ✓ LERC_jll
+   1563.2 ms  ✓ Statistics → SparseArraysExt
+    592.8 ms  ✓ JpegTurbo_jll
+    558.0 ms  ✓ XZ_jll
+    509.9 ms  ✓ Ogg_jll
+   1758.8 ms  ✓ UnicodeFun
+    519.2 ms  ✓ mtdev_jll
+   1872.7 ms  ✓ DataStructures
+    533.6 ms  ✓ Xorg_libXdmcp_jll
+    525.0 ms  ✓ x265_jll
+    518.5 ms  ✓ x264_jll
+    539.2 ms  ✓ Zstd_jll
+    516.3 ms  ✓ LZO_jll
+    560.5 ms  ✓ Expat_jll
+    569.6 ms  ✓ libaom_jll
+    512.6 ms  ✓ Xorg_xtrans_jll
+    517.4 ms  ✓ Opus_jll
+    CodecZlib Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/CodecZlib/1TI30_saelP.ji.pidfile)
+    607.9 ms  ✓ libevdev_jll
+    565.5 ms  ✓ Libiconv_jll
+   2362.0 ms  ✓ FixedPointNumbers
+    536.4 ms  ✓ Libffi_jll
+    610.2 ms  ✓ eudev_jll
+    610.1 ms  ✓ Libuuid_jll
+    606.8 ms  ✓ FriBidi_jll
+    576.9 ms  ✓ Graphite2_jll
+    469.3 ms  ✓ EpollShim_jll
+    595.8 ms  ✓ Libmount_jll
+    684.6 ms  ✓ Dbus_jll
+    471.8 ms  ✓ Missings
+   2761.7 ms  ✓ Latexify
+    AliasTables Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/AliasTables/C6bK3_saelP.ji.pidfile)
+    482.8 ms  ✓ RelocatableFolders
+    550.1 ms  ✓ Pixman_jll
+    590.2 ms  ✓ FreeType2_jll
+    584.2 ms  ✓ Xorg_libSM_jll
+    517.9 ms  ✓ SortingAlgorithms
+    636.3 ms  ✓ libvorbis_jll
+   1278.2 ms  ✓ RecipesBase
+    599.8 ms  ✓ Libtiff_jll
+    772.6 ms  ✓ JLFzf
+    608.5 ms  ✓ libinput_jll
+    649.8 ms  ✓ GettextRuntime_jll
+    619.6 ms  ✓ Wayland_jll
+    553.7 ms  ✓ Latexify → SparseArraysExt
+    692.1 ms  ✓ Fontconfig_jll
+   1133.8 ms  ✓ Xorg_libxcb_jll
+   1568.1 ms  ✓ OpenSSL
+   1208.7 ms  ✓ ColorTypes
+    672.5 ms  ✓ Glib_jll
+    564.0 ms  ✓ Xorg_libX11_jll
+    570.0 ms  ✓ Xorg_xcb_util_jll
+    545.4 ms  ✓ ColorTypes → StyledStringsExt
+   1307.0 ms  ✓ ColorVectorSpace
+   2360.1 ms  ✓ Xorg_xcb_util_renderutil_jll
+   2364.9 ms  ✓ Xorg_xcb_util_keysyms_jll
+   2420.7 ms  ✓ Xorg_libXfixes_jll
+   2421.1 ms  ✓ Xorg_xcb_util_image_jll
+   2437.9 ms  ✓ Xorg_libXrender_jll
+   2433.3 ms  ✓ Xorg_libXext_jll
+   2409.3 ms  ✓ Xorg_xcb_util_wm_jll
+   2462.0 ms  ✓ Xorg_libxkbfile_jll
+   3270.9 ms  ✓ Colors
+   6580.1 ms  ✓ Parsers
+   1087.4 ms  ✓ JSON
+  11832.2 ms  ✓ Unitful
+  10151.1 ms  ✓ CodecZlib
+    HTTP Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/HTTP/zXWya_saelP.ji.pidfile)
+    506.1 ms  ✓ Unitful → PrintfExt
+  10030.1 ms  ✓ AliasTables
+    StatsBase Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/StatsBase/EZjIG_saelP.ji.pidfile)
+   5719.4 ms  ✓ ColorSchemes
+    915.9 ms  ✓ UnitfulLatexify
+   5504.3 ms  ✓ PlotUtils
+  11793.9 ms  ✓ Xorg_libXi_jll
+  11790.1 ms  ✓ Xorg_libXinerama_jll
+  11879.7 ms  ✓ Libglvnd_jll
+  12319.6 ms  ✓ Xorg_libXrandr_jll
+  12356.1 ms  ✓ Xorg_libXcursor_jll
+  12401.8 ms  ✓ Cairo_jll
+  12507.2 ms  ✓ Xorg_xcb_util_cursor_jll
+   1365.8 ms  ✓ HarfBuzz_jll
+    638.5 ms  ✓ libass_jll
+    649.0 ms  ✓ Pango_jll
+    836.2 ms  ✓ FFMPEG_jll
+    654.8 ms  ✓ FFMPEG
+  10086.9 ms  ✓ StatsBase
+  21760.5 ms  ✓ Xorg_xkbcomp_jll
+    489.1 ms  ✓ Xorg_xkeyboard_config_jll
+  20175.2 ms  ✓ HTTP
+  17691.0 ms  ✓ PlotThemes
+  18197.1 ms  ✓ RecipesPipeline
+  20651.6 ms  ✓ xkbcommon_jll
+    557.7 ms  ✓ Vulkan_Loader_jll
+    647.6 ms  ✓ libdecor_jll
+    658.7 ms  ✓ GLFW_jll
+    878.6 ms  ✓ Qt6Base_jll
+    684.6 ms  ✓ Qt6ShaderTools_jll
+    770.7 ms  ✓ GR_jll
+   1410.4 ms  ✓ Qt6Declarative_jll
+  42066.7 ms  ? Qt6Wayland_jll
+   2521.7 ms  ✓ GR
+  34883.6 ms  ✓ Plots
+  42859.4 ms  ✓ Plots → UnitfulExt
+  133 dependencies successfully precompiled in 185 seconds. 46 already precompiled.
+  1 dependencies failed but may be precompilable after restarting julia
+  1 dependency had output during precompilation:
+┌ Qt6Wayland_jll
+│  ┌ Warning: Module Qt6Base_jll with build ID fafbfcfd-987a-da86-000a-de18c0b405b8 is missing from the cache.
+│  │ This may mean Qt6Base_jll [c0090381-4147-56d7-9ebc-da0b1113ec56] does not support precompilation but is imported by a module that does.
+│  └ @ Base loading.jl:2541
+└  
+Precompiling ChainRulesCoreSparseArraysExt...
+    493.6 ms  ✓ ChainRulesCore → ChainRulesCoreSparseArraysExt
+  1 dependency successfully precompiled in 1 seconds. 11 already precompiled.
+Precompiling SpecialFunctionsExt...
+    511.8 ms  ✓ ColorVectorSpace → SpecialFunctionsExt
+  1 dependency successfully precompiled in 1 seconds. 20 already precompiled.
+Precompiling ArgParse...
+    358.9 ms  ✓ TextWrap
+    673.1 ms  ✓ ArgParse
+  2 dependencies successfully precompiled in 1 seconds. 1 already precompiled.
+Precompiling CSV...
+    380.9 ms  ✓ IteratorInterfaceExtensions
+    454.2 ms  ✓ WorkerUtilities
+    451.6 ms  ✓ DataValueInterfaces
+    586.8 ms  ✓ PooledArrays
+    685.1 ms  ✓ InlineStrings
+    342.4 ms  ✓ TableTraits
+    963.0 ms  ✓ FilePathsBase
+    433.7 ms  ✓ InlineStrings → ParsersExt
+   1116.6 ms  ✓ SentinelArrays
+    678.5 ms  ✓ Tables
+    451.1 ms  ✓ FilePathsBase → FilePathsBaseMmapExt
+    607.2 ms  ✓ WeakRefStrings
+   8081.3 ms  ✓ CSV
+  13 dependencies successfully precompiled in 10 seconds. 17 already precompiled.
+Precompiling Optim...
+    407.4 ms  ✓ UnPack
+    460.6 ms  ✓ PositiveFactorizations
+    472.2 ms  ✓ EnumX
+    517.0 ms  ✓ Adapt
+    536.5 ms  ✓ ConstructionBase
+    615.6 ms  ✓ DifferentiationInterface → DifferentiationInterfaceSparseArraysExt
+    393.1 ms  ✓ Parameters
+    853.1 ms  ✓ FillArrays
+    459.8 ms  ✓ ConstructionBase → ConstructionBaseLinearAlgebraExt
+    456.7 ms  ✓ ADTypes → ADTypesConstructionBaseExt
+    571.4 ms  ✓ Adapt → AdaptSparseArraysExt
+    567.5 ms  ✓ ArrayInterface
+    389.2 ms  ✓ FillArrays → FillArraysStatisticsExt
+    523.8 ms  ✓ FillArrays → FillArraysSparseArraysExt
+    359.2 ms  ✓ ArrayInterface → ArrayInterfaceStaticArraysCoreExt
+    481.0 ms  ✓ ArrayInterface → ArrayInterfaceSparseArraysExt
+    881.4 ms  ✓ Setfield
+    533.3 ms  ✓ FiniteDiff
+    435.1 ms  ✓ DifferentiationInterface → DifferentiationInterfaceFiniteDiffExt
+    496.6 ms  ✓ FiniteDiff → FiniteDiffSparseArraysExt
+    762.7 ms  ✓ NLSolversBase
+   1328.9 ms  ✓ LineSearches
+   3419.9 ms  ✓ Optim
+  23 dependencies successfully precompiled in 9 seconds. 46 already precompiled.
+Precompiling ArrayInterfaceChainRulesCoreExt...
+    376.3 ms  ✓ ArrayInterface → ArrayInterfaceChainRulesCoreExt
+  1 dependency successfully precompiled in 0 seconds. 11 already precompiled.
+Precompiling ArrayInterfaceReverseDiffExt...
+    528.7 ms  ✓ Adapt → AdaptStaticArraysExt
+   2158.9 ms  ✓ ArrayInterface → ArrayInterfaceReverseDiffExt
+  2 dependencies successfully precompiled in 2 seconds. 39 already precompiled.
+Precompiling FiniteDiffStaticArraysExt...
+    532.8 ms  ✓ FiniteDiff → FiniteDiffStaticArraysExt
+    549.5 ms  ✓ ConstructionBase → ConstructionBaseStaticArraysExt
+  2 dependencies successfully precompiled in 1 seconds. 20 already precompiled.
+47748.212706 seconds (839.22 G allocations: 28.153 TiB, 7.92% gc time, 0.01% compilation time)
+Optim.converged(res) = false
+Optim.minimum(res) = 1.0978231328505752
+res =  * Status: failure (exceeded time limit of 43200.0)
+
+ * Candidate solution
+    Final objective value:     1.097823e+00
+
+ * Found with
+    Algorithm:     L-BFGS
+
+ * Convergence measures
+    |x - x'|               = 4.96e-07 ≰ 1.0e-08
+    |x - x'|/|x'|          = 8.45e-07 ≰ 0.0e+00
+    |f(x) - f(x')|         = 1.10e-06 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.00e-06 ≰ 0.0e+00
+    |g(x)|                 = 1.11e-02 ≰ 1.0e-04
+
+ * Work counters
+    Seconds run:   47562  (vs limit 43200)
+    Iterations:    9
+    f(x) calls:    396
+    ∇f(x) calls:   396
+
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/optimization/cliff/large_scale_burger_solution_nsv1_svdreverse_n4096_s7
+------------------------ Done ------------------------

@@ -8,7 +8,7 @@ function main()
         if last(splitext(my_file)) == ".log"
             fbase = basename(my_file)
             fsplit = split(fbase, "_")
-            insert!(fsplit, 2, "svdtol1e4")
+            insert!(fsplit, 2, "svdtol1e3")
             # @show fsplit
             new_file = join(fsplit, "_")
             # @show new_file

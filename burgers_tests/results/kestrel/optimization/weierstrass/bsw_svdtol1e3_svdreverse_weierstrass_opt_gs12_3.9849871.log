@@ -1,0 +1,86 @@
+tf = 1.0
+Nx = 4096
+tar_func = Main.tf_weierstrass
+seed = 3
+(m, n) = (64, 64)
+my_params = Dict{Symbol, Any}(:Nx => 4096, :flux => :lf, :ic => Main.grid_control, :mode => :svd, :tol => 0.001, :matdim => (64, 64), :cfl => 0.85, :scale => 100.0, :target => Main.tf_weierstrass, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+Iter     Function value   Gradient norm 
+     0     6.615754e+00     9.763340e-02
+ * time: 0.0202789306640625
+     1     1.688895e+00     4.863580e-02
+ * time: 393.7502510547638
+     2     1.482737e+00     4.788490e-02
+ * time: 622.5452480316162
+     3     1.142174e+00     4.038579e-02
+ * time: 957.3579659461975
+     4     9.068526e-01     2.806056e-02
+ * time: 1293.9324269294739
+     5     8.581042e-01     2.528269e-02
+ * time: 1503.6261930465698
+     6     8.372553e-01     1.918424e-02
+ * time: 1714.9169929027557
+     7     8.255925e-01     1.734759e-02
+ * time: 2034.343020915985
+     8     8.153265e-01     1.500205e-02
+ * time: 2363.185124874115
+     9     8.090078e-01     1.149611e-02
+ * time: 2581.216948032379
+    10     8.049905e-01     6.499972e-03
+ * time: 2798.039355993271
+    11     8.037068e-01     6.084269e-03
+ * time: 3015.1037969589233
+    12     8.020968e-01     5.195747e-03
+ * time: 3336.259130001068
+    13     8.011289e-01     2.769978e-03
+ * time: 3653.6966309547424
+    14     8.008603e-01     2.421131e-03
+ * time: 3979.55042886734
+    15     8.005545e-01     1.324441e-03
+ * time: 4301.270607948303
+    16     8.004575e-01     1.086701e-03
+ * time: 4623.777005910873
+    17     8.003259e-01     7.614975e-04
+ * time: 4946.029922008514
+    18     8.002889e-01     5.242901e-04
+ * time: 5267.786736011505
+    19     8.002781e-01     3.509963e-04
+ * time: 5587.952759981155
+    20     8.002734e-01     2.070522e-04
+ * time: 5909.619663953781
+    21     8.002728e-01     1.655744e-04
+ * time: 6123.772791862488
+    22     8.002734e-01     1.957781e-04
+ * time: 6445.221088886261
+    23     8.002722e-01     1.368913e-04
+ * time: 6766.877461910248
+    24     8.002709e-01     8.604685e-05
+ * time: 7089.62181186676
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+7257.699559 seconds (134.17 G allocations: 4.749 TiB, 8.44% gc time, 0.07% compilation time)
+Optim.converged(res) = true
+Optim.minimum(res) = 0.8002709150632731
+res =  * Status: success
+
+ * Candidate solution
+    Final objective value:     8.002709e-01
+
+ * Found with
+    Algorithm:     L-BFGS
+
+ * Convergence measures
+    |x - x'|               = 8.18e-05 ≰ 1.0e-08
+    |x - x'|/|x'|          = 1.49e-04 ≰ 0.0e+00
+    |f(x) - f(x')|         = 1.28e-06 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.60e-06 ≰ 0.0e+00
+    |g(x)|                 = 8.60e-05 ≤ 1.0e-04
+
+ * Work counters
+    Seconds run:   7090  (vs limit Inf)
+    Iterations:    24
+    f(x) calls:    66
+    ∇f(x) calls:   66
+
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/optimization/weierstrass/large_scale_burger_solution_svdtole3_svdreverse_n4096_s3
+------------------------ Done ------------------------

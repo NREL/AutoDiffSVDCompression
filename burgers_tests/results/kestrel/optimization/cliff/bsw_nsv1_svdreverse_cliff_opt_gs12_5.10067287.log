@@ -1,0 +1,86 @@
+tf = 1.0
+Nx = 4096
+tar_func = Main.tf_cliff
+seed = 5
+(m, n) = (64, 64)
+my_params = Dict{Symbol, Any}(:Nx => 4096, :flux => :lf, :ic => Main.grid_control, :mode => :svd, :nsv => 1, :matdim => (64, 64), :cfl => 0.85, :scale => 100.0, :target => Main.tf_cliff, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+Iter     Function value   Gradient norm 
+     0     6.542239e+00     1.233456e-01
+ * time: 0.019407987594604492
+     1     1.433243e+00     2.370606e-02
+ * time: 389.8694791793823
+     2     1.305665e+00     2.536310e-02
+ * time: 614.9977669715881
+     3     1.189547e+00     1.911376e-03
+ * time: 837.7282919883728
+     4     1.189548e+00     1.910753e-03
+ * time: 7506.953966140747
+     5     1.189549e+00     1.910346e-03
+ * time: 14480.814875125885
+     6     1.189551e+00     1.910076e-03
+ * time: 21868.13397717476
+     7     1.189552e+00     1.909843e-03
+ * time: 28936.537994146347
+     8     1.189553e+00     1.909619e-03
+ * time: 36331.6192510128
+     9     1.189554e+00     1.909395e-03
+ * time: 43647.25811505318
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+Precompiling Plots...
+    xkbcommon_jll Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/xkbcommon_jll/1mf1R_saelP.ji.pidfile)
+    libass_jll Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/libass_jll/JqZi8_saelP.ji.pidfile)
+    Pango_jll Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/Pango_jll/lZI8Y_saelP.ji.pidfile)
+   2607.7 ms  ✓ PlotThemes
+   2772.0 ms  ✓ RecipesPipeline
+  10116.4 ms  ✓ Pango_jll
+  20323.0 ms  ✓ xkbcommon_jll
+  20206.7 ms  ✓ libass_jll
+    602.4 ms  ✓ Vulkan_Loader_jll
+    754.4 ms  ✓ libdecor_jll
+    612.5 ms  ✓ GLFW_jll
+    931.9 ms  ✓ Qt6Base_jll
+  20830.0 ms  ✓ Qt6ShaderTools_jll
+    Qt6Declarative_jll Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/Qt6Declarative_jll/rB4FL_saelP.ji.pidfile)
+  21018.9 ms  ✓ GR_jll
+  10069.5 ms  ✓ Qt6Declarative_jll
+    Qt6Wayland_jll Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/Qt6Wayland_jll/mzY2s_saelP.ji.pidfile)
+  10050.4 ms  ✓ Qt6Wayland_jll
+    GR Being precompiled by another machine (hostname: x1000c6s7b0n1, pid: 2541845, pidfile: /home/jmaack/.julia/compiled/v1.11/GR/NDU5Y_saelP.ji.pidfile)
+  20145.3 ms  ✓ GR
+    Plots Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/Plots/ld3vC_saelP.ji.pidfile)
+  50349.2 ms  ✓ Plots
+    UnitfulExt Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/UnitfulExt/4ishe_saelP.ji.pidfile)
+  10207.2 ms  ✓ Plots → UnitfulExt
+  16 dependencies successfully precompiled in 146 seconds. 164 already precompiled.
+Precompiling CSV...
+    CSV Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/CSV/HHBkp_saelP.ji.pidfile)
+  20169.9 ms  ✓ CSV
+  1 dependency successfully precompiled in 20 seconds. 29 already precompiled.
+43822.670865 seconds (838.83 G allocations: 28.140 TiB, 8.19% gc time, 0.01% compilation time)
+Optim.converged(res) = false
+Optim.minimum(res) = 1.1895541651901507
+res =  * Status: failure (exceeded time limit of 43200.0)
+
+ * Candidate solution
+    Final objective value:     1.189554e+00
+
+ * Found with
+    Algorithm:     L-BFGS
+
+ * Convergence measures
+    |x - x'|               = 8.49e-07 ≰ 1.0e-08
+    |x - x'|/|x'|          = 1.44e-06 ≰ 0.0e+00
+    |f(x) - f(x')|         = 1.19e-06 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.00e-06 ≰ 0.0e+00
+    |g(x)|                 = 1.91e-03 ≰ 1.0e-04
+
+ * Work counters
+    Seconds run:   43648  (vs limit 43200)
+    Iterations:    9
+    f(x) calls:    394
+    ∇f(x) calls:   394
+
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/optimization/cliff/large_scale_burger_solution_nsv1_svdreverse_n4096_s5
+------------------------ Done ------------------------

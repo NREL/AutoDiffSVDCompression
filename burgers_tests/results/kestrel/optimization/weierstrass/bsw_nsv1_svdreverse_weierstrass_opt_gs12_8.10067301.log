@@ -1,0 +1,68 @@
+tf = 1.0
+Nx = 4096
+tar_func = Main.tf_weierstrass
+seed = 8
+(m, n) = (64, 64)
+my_params = Dict{Symbol, Any}(:Nx => 4096, :flux => :lf, :ic => Main.grid_control, :mode => :svd, :nsv => 1, :matdim => (64, 64), :cfl => 0.85, :scale => 100.0, :target => Main.tf_weierstrass, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+Iter     Function value   Gradient norm 
+     0     6.616212e+00     1.047613e-01
+ * time: 0.019249916076660156
+     1     1.850871e+00     4.045438e-02
+ * time: 393.23071694374084
+     2     1.580930e+00     1.351711e-02
+ * time: 627.6544888019562
+     3     1.574058e+00     9.082345e-03
+ * time: 969.5042109489441
+     4     1.574060e+00     9.082249e-03
+ * time: 8106.8209228515625
+     5     1.574062e+00     9.082130e-03
+ * time: 15256.100767850876
+     6     1.574063e+00     9.082021e-03
+ * time: 22428.220856904984
+     7     1.574065e+00     9.081907e-03
+ * time: 29703.21241092682
+     8     1.574066e+00     9.081797e-03
+ * time: 37363.74050784111
+     9     1.574068e+00     9.081682e-03
+ * time: 45136.20296883583
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+Precompiling Plots...
+    Qt6Declarative_jll Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/Qt6Declarative_jll/rB4FL_saelP.ji.pidfile)
+  10164.1 ms  ✓ Qt6Declarative_jll
+    Qt6Wayland_jll Being precompiled by another machine (hostname: x1000c6s7b0n1, pid: 2541845, pidfile: /home/jmaack/.julia/compiled/v1.11/Qt6Wayland_jll/mzY2s_saelP.ji.pidfile)
+  10080.7 ms  ✓ Qt6Wayland_jll
+    GR Being precompiled by another machine (hostname: x1008c2s3b1n0, pid: 1942280, pidfile: /home/jmaack/.julia/compiled/v1.11/GR/NDU5Y_saelP.ji.pidfile)
+  20126.8 ms  ✓ GR
+    Plots Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/Plots/ld3vC_saelP.ji.pidfile)
+  40408.9 ms  ✓ Plots
+    UnitfulExt Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/UnitfulExt/4ishe_saelP.ji.pidfile)
+  30238.0 ms  ✓ Plots → UnitfulExt
+  5 dependencies successfully precompiled in 114 seconds. 175 already precompiled.
+45303.549838 seconds (841.16 G allocations: 28.218 TiB, 8.20% gc time, 0.01% compilation time)
+Optim.converged(res) = false
+Optim.minimum(res) = 1.5740678818298381
+res =  * Status: failure (exceeded time limit of 43200.0)
+
+ * Candidate solution
+    Final objective value:     1.574068e+00
+
+ * Found with
+    Algorithm:     L-BFGS
+
+ * Convergence measures
+    |x - x'|               = 3.60e-07 ≰ 1.0e-08
+    |x - x'|/|x'|          = 6.10e-07 ≰ 0.0e+00
+    |f(x) - f(x')|         = 1.57e-06 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.00e-06 ≰ 0.0e+00
+    |g(x)|                 = 9.08e-03 ≰ 1.0e-04
+
+ * Work counters
+    Seconds run:   45136  (vs limit 43200)
+    Iterations:    9
+    f(x) calls:    395
+    ∇f(x) calls:   395
+
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/optimization/weierstrass/large_scale_burger_solution_nsv1_svdreverse_n4096_s8
+------------------------ Done ------------------------

@@ -1,0 +1,233 @@
+tf = 1.0
+Nx = 4096
+tar_func = Main.tf_sin
+seed = 8
+(m, n) = (64, 64)
+my_params = Dict{Symbol, Any}(:Nx => 4096, :flux => :lf, :ic => Main.grid_control, :mode => :svd, :nsv => 1, :matdim => (64, 64), :cfl => 0.85, :scale => 100.0, :target => Main.tf_sin, :tf => 1.0)
+-------- Running Optimimzation with SVD and ReverseDiff --------
+Iter     Function value   Gradient norm 
+     0     1.466756e+01     1.374829e-01
+ * time: 0.019772052764892578
+     1     6.799864e+00     5.380532e-02
+ * time: 445.9741611480713
+     2     5.130416e+00     8.063515e-03
+ * time: 875.6143012046814
+     3     5.033071e+00     1.784260e-03
+ * time: 1226.9565241336823
+     4     5.032358e+00     6.184762e-04
+ * time: 1459.0881531238556
+     5     5.032363e+00     6.171885e-04
+ * time: 8291.814487218857
+     6     5.032368e+00     6.123490e-04
+ * time: 15245.344430208206
+     7     5.032373e+00     6.067605e-04
+ * time: 21965.693020105362
+     8     5.032378e+00     6.011184e-04
+ * time: 28724.73053908348
+     9     5.032384e+00     5.955267e-04
+ * time: 35864.450654029846
+    10     5.032389e+00     5.866972e-04
+ * time: 42860.062380075455
+    11     5.032394e+00     5.813929e-04
+ * time: 50072.378736019135
+GKS: cannot open display - headless operation mode active
+  Activating project at `/kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression`
+Precompiling Plots...
+    LaTeXStrings Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/LaTeXStrings/H4HGh_saelP.ji.pidfile)
+    TensorCore Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/TensorCore/wqzBb_saelP.ji.pidfile)
+    StatsAPI Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/StatsAPI/Rf3YC_saelP.ji.pidfile)
+    Contour Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/Contour/ZECEP_saelP.ji.pidfile)
+    Format Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/Format/MRFzB_saelP.ji.pidfile)
+    Measures Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/Measures/RAMEy_saelP.ji.pidfile)
+    Grisu Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/Grisu/T2ZVU_saelP.ji.pidfile)
+    OrderedCollections Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/OrderedCollections/LtT3J_saelP.ji.pidfile)
+    Requires Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/Requires/IyxeS_saelP.ji.pidfile)
+    ConcurrentUtilities Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/ConcurrentUtilities/OtIZJ_saelP.ji.pidfile)
+    FixedPointNumbers Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/FixedPointNumbers/Ple2W_saelP.ji.pidfile)
+    MbedTLS Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/MbedTLS/bf9T0_saelP.ji.pidfile)
+    Unitful Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/Unitful/5WYj5_saelP.ji.pidfile)
+    UnicodeFun Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/UnicodeFun/wLwUU_saelP.ji.pidfile)
+    OpenSSL_jll Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/OpenSSL_jll/M3X35_saelP.ji.pidfile)
+    Graphite2_jll Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/Graphite2_jll/XMuhG_saelP.ji.pidfile)
+    Libmount_jll Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/Libmount_jll/04u4y_saelP.ji.pidfile)
+    EpollShim_jll Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/EpollShim_jll/9JxHH_saelP.ji.pidfile)
+    LLVMOpenMP_jll Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/LLVMOpenMP_jll/KocKf_saelP.ji.pidfile)
+    Bzip2_jll Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/Bzip2_jll/biC9V_saelP.ji.pidfile)
+    Xorg_libICE_jll Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/Xorg_libICE_jll/06LST_saelP.ji.pidfile)
+    Xorg_libXau_jll Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/Xorg_libXau_jll/S8Fsv_saelP.ji.pidfile)
+   4030.1 ms  ✓ PtrArrays
+   3371.4 ms  ✓ Scratch
+   3371.7 ms  ✓ LoggingExtras
+   4125.8 ms  ✓ StableRNGs
+   4067.0 ms  ✓ Reexport
+   4052.1 ms  ✓ URIs
+   4048.4 ms  ✓ SimpleBufferStream
+   4032.8 ms  ✓ TranscodingStreams
+   3536.4 ms  ✓ DataAPI
+   3438.3 ms  ✓ BitFlags
+   2723.9 ms  ✓ ExceptionUnwrapping
+   2626.7 ms  ✓ libpng_jll
+   2623.8 ms  ✓ libfdk_aac_jll
+   3534.4 ms  ✓ Statistics → SparseArraysExt
+   4030.3 ms  ✓ DelimitedFiles
+   4077.5 ms  ✓ Unzip
+    795.4 ms  ✓ RelocatableFolders
+    829.9 ms  ✓ AliasTables
+    852.8 ms  ✓ LAME_jll
+    869.4 ms  ✓ CodecZlib
+    882.0 ms  ✓ Missings
+    924.2 ms  ✓ LERC_jll
+    917.0 ms  ✓ fzf_jll
+    941.5 ms  ✓ mtdev_jll
+    938.8 ms  ✓ Xorg_libXdmcp_jll
+    Parsers Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/Parsers/833b9_saelP.ji.pidfile)
+    969.9 ms  ✓ Ogg_jll
+    973.1 ms  ✓ x265_jll
+    976.2 ms  ✓ x264_jll
+    972.8 ms  ✓ Zstd_jll
+    969.4 ms  ✓ libaom_jll
+   1034.3 ms  ✓ JpegTurbo_jll
+   1030.1 ms  ✓ XZ_jll
+    496.0 ms  ✓ libevdev_jll
+    537.8 ms  ✓ Libiconv_jll
+    519.8 ms  ✓ Libffi_jll
+    555.2 ms  ✓ eudev_jll
+    606.6 ms  ✓ FriBidi_jll
+    617.1 ms  ✓ Libuuid_jll
+    713.7 ms  ✓ LZO_jll
+    723.8 ms  ✓ Expat_jll
+    703.0 ms  ✓ Opus_jll
+    713.9 ms  ✓ Xorg_xtrans_jll
+    756.0 ms  ✓ Libtiff_jll
+    805.7 ms  ✓ libvorbis_jll
+    598.6 ms  ✓ GettextRuntime_jll
+    533.2 ms  ✓ libinput_jll
+    978.9 ms  ✓ JLFzf
+   1269.7 ms  ✓ RecipesBase
+    555.8 ms  ✓ Dbus_jll
+  13245.9 ms  ✓ Format
+  13248.4 ms  ✓ Contour
+  13250.6 ms  ✓ StatsAPI
+  13253.6 ms  ✓ TensorCore
+  13336.4 ms  ✓ LaTeXStrings
+  13255.7 ms  ✓ Measures
+  13240.1 ms  ✓ Requires
+  13242.5 ms  ✓ OrderedCollections
+  13247.8 ms  ✓ Grisu
+  10148.3 ms  ✓ ConcurrentUtilities
+  10135.9 ms  ✓ FixedPointNumbers
+  10170.1 ms  ✓ MbedTLS
+    405.7 ms  ✓ Showoff
+  10150.4 ms  ✓ UnicodeFun
+  10164.9 ms  ✓ Xorg_libXau_jll
+  10175.4 ms  ✓ Xorg_libICE_jll
+  10184.8 ms  ✓ Bzip2_jll
+  10195.0 ms  ✓ LLVMOpenMP_jll
+  10204.6 ms  ✓ EpollShim_jll
+  10213.3 ms  ✓ Libmount_jll
+  10216.2 ms  ✓ Graphite2_jll
+  10229.5 ms  ✓ OpenSSL_jll
+   1179.9 ms  ✓ ColorTypes
+   1360.9 ms  ✓ DataStructures
+    676.4 ms  ✓ Xorg_libSM_jll
+    668.3 ms  ✓ Pixman_jll
+    711.4 ms  ✓ FreeType2_jll
+    819.2 ms  ✓ Wayland_jll
+    837.3 ms  ✓ Glib_jll
+    450.6 ms  ✓ ColorTypes → StyledStringsExt
+    448.3 ms  ✓ SortingAlgorithms
+   1177.6 ms  ✓ Xorg_libxcb_jll
+    Xorg_xcb_util_jll Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2555689, pidfile: /home/jmaack/.julia/compiled/v1.11/Xorg_xcb_util_jll/oHgey_saelP.ji.pidfile)
+    Xorg_libX11_jll Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2555768, pidfile: /home/jmaack/.julia/compiled/v1.11/Xorg_libX11_jll/KzQhU_saelP.ji.pidfile)
+   2169.9 ms  ✓ Latexify
+    651.7 ms  ✓ Fontconfig_jll
+   1661.9 ms  ✓ OpenSSL
+    HTTP Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/HTTP/zXWya_saelP.ji.pidfile)
+   1310.7 ms  ✓ ColorVectorSpace
+    519.1 ms  ✓ Latexify → SparseArraysExt
+   1607.1 ms  ✓ StatsBase
+  10082.3 ms  ✓ Parsers
+   3249.2 ms  ✓ Colors
+   1024.4 ms  ✓ JSON
+   2708.8 ms  ✓ ColorSchemes
+    PlotUtils Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2557318, pidfile: /home/jmaack/.julia/compiled/v1.11/PlotUtils/YveHG_saelP.ji.pidfile)
+  20331.7 ms  ✓ Unitful
+    493.3 ms  ✓ Unitful → PrintfExt
+    849.5 ms  ✓ UnitfulLatexify
+  10027.1 ms  ✓ Xorg_libX11_jll
+  10029.1 ms  ✓ Xorg_xcb_util_jll
+    Xorg_libxkbfile_jll Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2555772, pidfile: /home/jmaack/.julia/compiled/v1.11/Xorg_libxkbfile_jll/PAhQT_saelP.ji.pidfile)
+    695.6 ms  ✓ Xorg_libXrender_jll
+    725.7 ms  ✓ Xorg_libXext_jll
+    729.8 ms  ✓ Xorg_libXfixes_jll
+    721.8 ms  ✓ Xorg_xcb_util_keysyms_jll
+    726.1 ms  ✓ Xorg_xcb_util_image_jll
+    719.7 ms  ✓ Xorg_xcb_util_renderutil_jll
+    716.7 ms  ✓ Xorg_xcb_util_wm_jll
+    724.5 ms  ✓ Xorg_libXcursor_jll
+    744.5 ms  ✓ Xorg_libXi_jll
+    741.1 ms  ✓ Xorg_libXinerama_jll
+    737.5 ms  ✓ Xorg_libXrandr_jll
+    723.1 ms  ✓ Xorg_xcb_util_cursor_jll
+    812.1 ms  ✓ Libglvnd_jll
+    823.6 ms  ✓ Cairo_jll
+    596.3 ms  ✓ HarfBuzz_jll
+    572.7 ms  ✓ libass_jll
+    607.6 ms  ✓ Pango_jll
+    777.7 ms  ✓ FFMPEG_jll
+    579.5 ms  ✓ FFMPEG
+  10030.9 ms  ✓ Xorg_libxkbfile_jll
+  20164.7 ms  ✓ HTTP
+    637.0 ms  ✓ Xorg_xkbcomp_jll
+    466.1 ms  ✓ Xorg_xkeyboard_config_jll
+    xkbcommon_jll Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/xkbcommon_jll/1mf1R_saelP.ji.pidfile)
+  30148.5 ms  ✓ PlotUtils
+   1994.6 ms  ✓ PlotThemes
+   2490.8 ms  ✓ RecipesPipeline
+  20029.8 ms  ✓ xkbcommon_jll
+    Vulkan_Loader_jll Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/Vulkan_Loader_jll/MvdhX_saelP.ji.pidfile)
+    libdecor_jll Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/libdecor_jll/vwRMv_saelP.ji.pidfile)
+  10085.0 ms  ✓ libdecor_jll
+  10102.0 ms  ✓ Vulkan_Loader_jll
+    650.3 ms  ✓ GLFW_jll
+    876.4 ms  ✓ Qt6Base_jll
+    Qt6ShaderTools_jll Being precompiled by another machine (hostname: x1004c6s6b0n1, pid: 540279, pidfile: /home/jmaack/.julia/compiled/v1.11/Qt6ShaderTools_jll/O8E7A_saelP.ji.pidfile)
+    GR_jll Being precompiled by another machine (hostname: x1004c6s6b0n1, pid: 540279, pidfile: /home/jmaack/.julia/compiled/v1.11/GR_jll/jV9xf_saelP.ji.pidfile)
+  20129.0 ms  ✓ Qt6ShaderTools_jll
+  20128.0 ms  ✓ GR_jll
+    Qt6Declarative_jll Being precompiled by another machine (hostname: x1002c5s4b1n0, pid: 1001284, pidfile: /home/jmaack/.julia/compiled/v1.11/Qt6Declarative_jll/rB4FL_saelP.ji.pidfile)
+  10043.0 ms  ✓ Qt6Declarative_jll
+    Qt6Wayland_jll Being precompiled by another machine (hostname: x1003c6s0b0n1, pid: 159549, pidfile: /home/jmaack/.julia/compiled/v1.11/Qt6Wayland_jll/mzY2s_saelP.ji.pidfile)
+  20060.6 ms  ✓ Qt6Wayland_jll
+   2505.8 ms  ✓ GR
+    Plots Being precompiled by another machine (hostname: x1000c6s7b0n0, pid: 2541389, pidfile: /home/jmaack/.julia/compiled/v1.11/Plots/ld3vC_saelP.ji.pidfile)
+  70324.0 ms  ✓ Plots
+    UnitfulExt Being precompiled by another machine (hostname: x1008c4s1b0n1, pid: 562174, pidfile: /home/jmaack/.julia/compiled/v1.11/UnitfulExt/4ishe_saelP.ji.pidfile)
+  10180.7 ms  ✓ Plots → UnitfulExt
+  134 dependencies successfully precompiled in 201 seconds. 46 already precompiled.
+50238.192974 seconds (941.69 G allocations: 31.590 TiB, 7.74% gc time, 0.01% compilation time)
+Optim.converged(res) = false
+Optim.minimum(res) = 5.032393595542484
+res =  * Status: failure (exceeded time limit of 43200.0)
+
+ * Candidate solution
+    Final objective value:     5.032394e+00
+
+ * Found with
+    Algorithm:     L-BFGS
+
+ * Convergence measures
+    |x - x'|               = 2.43e-05 ≰ 1.0e-08
+    |x - x'|/|x'|          = 3.98e-05 ≰ 0.0e+00
+    |f(x) - f(x')|         = 5.03e-06 ≰ 0.0e+00
+    |f(x) - f(x')|/|f(x')| = 1.00e-06 ≰ 0.0e+00
+    |g(x)|                 = 5.81e-04 ≰ 1.0e-04
+
+ * Work counters
+    Seconds run:   50073  (vs limit 43200)
+    Iterations:    11
+    f(x) calls:    426
+    ∇f(x) calls:   426
+
+Saving results to: /kfs2/projects/diffprog/jmaack/AutoDiffSVDCompression/burgers_tests/results/kestrel/optimization/sin/large_scale_burger_solution_nsv1_svdreverse_n4096_s8
+------------------------ Done ------------------------

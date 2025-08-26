@@ -282,9 +282,11 @@ function tf_weierstrass(x, params; a=0.825, b=7, N=5)
         u0[i] = ic_weierstrass(xi, a, b, N)
     end
 
-    bp = burger_solution(u0, params)
+    return u0
 
-    return bp.uk
+    # bp = burger_solution(u0, params)
+
+    # return bp.uk
 
 end
 
@@ -346,8 +348,8 @@ function cost_x(x, p)
 end
 
 function cost(x, p)
-    a = 10.0
-    b = 10.0
+    a = get(p, :a, 10.0)
+    b = get(p, :b, 10.0)
     scale = p[:scale]
     return scale * (b * cost_u(x, p) + a * cost_x(x, p))
 end
