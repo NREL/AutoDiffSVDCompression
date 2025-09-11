@@ -295,6 +295,7 @@ function main(ARGS)
         x_abstol=xtol,
         outer_g_abstol=tol,
         outer_x_abstol=xtol,
+        time_limit=(12 * 3600.0),
         store_trace=false,
         extended_trace=parsed_args["extended-trace"],
         show_trace=(parsed_args["trace"] | parsed_args["extended-trace"]),

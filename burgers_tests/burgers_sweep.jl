@@ -73,6 +73,13 @@ function main()
     println("With target: ", targets)
     println("With seeds: ", seeds)
 
+    println("Proceed? (Y/N)")
+    ui = readline()
+    if ui != "Y"
+        println("Aborting.")
+        return
+    end
+
     burger_script = joinpath(@__DIR__, "burgers_large_scale.jl")
 
     for k in grid_sizes
