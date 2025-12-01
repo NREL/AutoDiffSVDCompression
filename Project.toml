@@ -1,5 +1,4 @@
 [deps]
-AppleAccelerate = "13e28ba4-7ad8-5781-acae-3021b1ed3924"
 ArgParse = "c7e460c6-2fb9-53a9-8c5b-16f535851c63"
 BurgersEquation = "2685da08-9f13-4009-b709-356dd418f2d4"
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
@@ -23,3 +22,7 @@ ReverseDiff = "37e2e3b7-166d-5795-8a7a-e32c996b4267"
 Tables = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"
 TranscodingStreams = "3bb67fe8-82b1-5028-8e26-92a6c54297fa"
 Wavelets = "29a6e085-ba6d-5f35-a997-948ac2efa89a"
+
+[sources]
+BurgersEquation = {path = "BurgersEquation"}
+ImplicitAD = {path = "ImplicitAD"}
