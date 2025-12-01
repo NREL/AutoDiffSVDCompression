@@ -14,6 +14,8 @@ The primary purpose of this repository is to document those results, and enable 
 
 ## Code Description
 
+A brief description of the projects, files, or directories in this repository is given below.
+
 * `BurgersEquation` -- Code for numerical simulation of Burgers' equation. The numerical methods implemented are described in the paper. As cited in the paper, in depth discussion can be found in [Hesthaven, Jan S. Numerical methods for conservation laws: From analysis to algorithms. Society for Industrial and Applied Mathematics, 2017.](https://epubs.siam.org/doi/book/10.1137/1.9781611975109).
 * `ImplicitAD` -- Modified version of ImplicitAD used for introducing SVD compression into AD process. For more details, see the [ImplicitAD documentation](https://flow.byu.edu/ImplicitAD.jl/dev/) and the paper [Ning, Andrew, and Taylor McDonnell. "Automating steady and unsteady adjoints: efficiently utilizing implicit and algorithmic differentiation." arXiv preprint arXiv:2306.15243 (2023).](https://arxiv.org/abs/2306.15243)
 * `burgers_tests` -- scripts and Jupyter notebooks for running benchmarks
